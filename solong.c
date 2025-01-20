@@ -10,7 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int main(int argc, char *argv)
-{
+#include "header.h"
 
+int main(int argc, char *argv[])
+{
+    t_list *start;
+
+    if (argc != 2)
+    {
+        write(1, MSG_ERROR_Nª_PARAMS, 73);
+        return (1);
+    }
+    start = validate_map(argv[1]);
+    if (start == NULL)
+        return (1);
 }
