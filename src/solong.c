@@ -14,14 +14,20 @@
 
 int main(int argc, char *argv[])
 {
-    t_list *start;
+    int fd;
+    t_matrix map;
 
     if (argc != 2)
     {
         write(1, MSG_ERROR_Nª_PARAMS, 73);
         return (1);
     }
-    start = validate_map(argv[1]);
-    if (start == NULL)
+    if (!is_map_valid(argv[1], &fd))
+        return (0);
+    map = get_matrix(fd);
+    if (map.matrix == NULL)
         return (1);
+    matrix_print(map);
+    arr_arr_free(map.matrix, map.heigth);
+    return (0);
 }
