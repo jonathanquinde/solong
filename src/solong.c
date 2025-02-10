@@ -28,6 +28,6 @@ int main(int argc, char *argv[])
     if (map.matrix == NULL)
         return (1);
     matrix_print(map);
-    arr_arr_free(map.matrix, map.heigth);
+    arr_arr_free(map.matrix, map.height);
     return (0);
 }

@@ -12,14 +12,14 @@
 #define MSG_ERROR_Nº_EXITS "Error\nNumero invalido de salidas. Un unico caracter: E\n"
 #define MSG_ERROR_Nº_SPAWNS "Error\nNumero invalido de spawns. Un unico caracter: P\n"
 #define MSG_ERROR_MAP_FORM "Error\nForma del mapa invalido. Requiere un mapa rectangular\n"
-#define MSG_ERROR_MAP_LIMITS "Error\nMapa no cerrado. Requiere un mapa rodeados de caracteres: 1\n"
+#define MSG_ERROR_MAP_LIMITS "Error\nMapa no cerrado. Requiere un mapa rodeados de caracteres 1\n"
 #define MSG_ERROR "Error\n\n"
 
 typedef struct s_matrix
 {
     unsigned char **matrix;
     size_t width;
-    size_t heigth;
+    size_t height;
 }              t_matrix;
 
 struct s_tiles
@@ -31,7 +31,7 @@ struct s_tiles
 
 t_matrix get_matrix(int fd);
 
-int is_line_valid(unsigned char *current, size_t width, struct s_tiles *tiles);
+int is_line_valid(char *current, size_t *width, struct s_tiles *tiles);
 int is_map_valid(const char *map_source, int *fd);
 int are_tiles_valid(struct s_tiles tiles);
 int are_borders_valid(t_matrix *ptr_map);
@@ -40,5 +40,7 @@ unsigned char **matrix_new(size_t height, size_t width);
 void    initialize_matrix(t_list *node, unsigned char **row);
 void arr_arr_free(unsigned char **matrix, size_t size);
 void    matrix_print(t_matrix matrix);
+
+void initialize_tiles(struct s_tiles *tiles);
 
 char    *gnl(int fd);

@@ -68,7 +68,7 @@ void    matrix_print(t_matrix matrix)
     size_t j;
 
     i = 0;
-    while (i < matrix.heigth)
+    while (i < matrix.height)
     {
         j = 0;
         while (j < matrix.width)

@@ -37,21 +37,28 @@ int is_char_valid(unsigned char buffer, struct s_tiles *tiles)
     return (0);
 }
 
-int is_line_valid(unsigned char *current, size_t width, struct s_tiles *tiles)
+int is_line_valid(char *current, size_t *width, struct s_tiles *tiles)
 {
-    size_t len1;
+    size_t len;
 
-    len1 = 0;
-    while (current[len1] != '\n' && current[len1] != '\0' && current[len1] != '\r')
+    len = 0;
+    while (current[len] != '\n' && current[len] != '\0')
     {
-        if (!is_char_valid(current[len1], tiles))
+        if (!is_char_valid(current[len], tiles))
             return(0);
-        len1++;
+        len++;
     }
-    if (len1 != width)
+    if (*width == 0)
+        *width = len;
+    else if (len != *width)
     {
         write(1, MSG_ERROR_MAP_FORM, 61);
         return (0);
+    }
+    if (current[len] == '\0')
+    {
+        if (!are_tiles_valid(*tiles))
+            return (0);
     }
     return (1);
 }
@@ -108,23 +115,23 @@ int are_borders_valid(t_matrix *ptr_map)
     j = 0;
     while (j < ptr_map->width)
     {
-        if ((ptr_map->matrix)[0][j] != '1' && (ptr_map->matrix)[ptr_map->heigth - 1][j])
+        if ((ptr_map->matrix)[0][j] != '1' || (ptr_map->matrix)[ptr_map->height - 1][j] != '1')
         {
-            arr_arr_free(ptr_map->matrix, ptr_map->heigth);
+            arr_arr_free(ptr_map->matrix, ptr_map->height);
             ptr_map->matrix = NULL;
-            write(1, MSG_ERROR_MAP_LIMITS, 61);
+            write(1, MSG_ERROR_MAP_LIMITS, 66);
             return (0);
         }
         j++;
     }
     i = 0;
-    while (i < ptr_map->heigth)
+    while (i < ptr_map->height)
     {
-        if ((ptr_map->matrix)[i][0] != '1' && (ptr_map->matrix)[i][ptr_map->width - 1])
+        if ((ptr_map->matrix)[i][0] != '1' || (ptr_map->matrix)[i][ptr_map->width - 1] != '1')
         {
-            arr_arr_free(ptr_map->matrix, ptr_map->heigth);
+            arr_arr_free(ptr_map->matrix, ptr_map->height);
             ptr_map->matrix = NULL;
-            write(1, MSG_ERROR_MAP_LIMITS, 61);
+            write(1, MSG_ERROR_MAP_LIMITS, 66);
             return (0);
         }
         i++;
