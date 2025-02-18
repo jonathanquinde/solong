@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:37:50 by jquinde-          #+#    #+#             */
-/*   Updated: 2024/10/14 16:19:58 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:50:14 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,5 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+int		ft_strendswith(char *str, const char *suffix);

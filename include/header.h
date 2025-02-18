@@ -32,7 +32,7 @@ struct s_tiles
 t_matrix get_matrix(int fd);
 
 int is_line_valid(char *current, size_t *width, struct s_tiles *tiles);
-int is_map_valid(const char *map_source, int *fd);
+int are_params_valid(int argc, char *map_source);
 int are_tiles_valid(struct s_tiles tiles);
 int are_borders_valid(t_matrix *ptr_map);
 

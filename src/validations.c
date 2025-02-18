@@ -14,127 +14,123 @@
 
 int is_char_valid(unsigned char buffer, struct s_tiles *tiles)
 {
-    if (buffer == '0')
-        return (1);
-    if (buffer == '1')
-        return (1);
-    if (buffer == 'C')
-    {
-        (tiles->n_collect)++;
-        return (1);
-    }
-    if (buffer == 'E')
-    {
-        (tiles->n_exits)++;
-        return (1);
-    }
-    if (buffer == 'P')
-    {
-        (tiles->n_spawns)++;
-        return (1);
-    }
-    write(1, MSG_ERROR_INVALID_CH, 72);
-    return (0);
+	if (buffer == '0')
+		return (1);
+	if (buffer == '1')
+		return (1);
+	if (buffer == 'C')
+	{
+		(tiles->n_collect)++;
+		return (1);
+	}
+	if (buffer == 'E')
+	{
+		(tiles->n_exits)++;
+		return (1);
+	}
+	if (buffer == 'P')
+	{
+		(tiles->n_spawns)++;
+		return (1);
+	}
+	write(1, MSG_ERROR_INVALID_CH, 72);
+	return (0);
 }
 
 int is_line_valid(char *current, size_t *width, struct s_tiles *tiles)
 {
-    size_t len;
+	size_t len;
 
-    len = 0;
-    while (current[len] != '\n' && current[len] != '\0')
-    {
-        if (!is_char_valid(current[len], tiles))
-            return(0);
-        len++;
-    }
-    if (*width == 0)
-        *width = len;
-    else if (len != *width)
-    {
-        write(1, MSG_ERROR_MAP_FORM, 61);
-        return (0);
-    }
-    if (current[len] == '\0')
-    {
-        if (!are_tiles_valid(*tiles))
-            return (0);
-    }
-    return (1);
+	len = 0;
+	while (current[len] != '\n' && current[len] != '\0')
+	{
+		if (!is_char_valid(current[len], tiles))
+			return(0);
+		len++;
+	}
+	if (*width == 0)
+		*width = len;
+	else if (len != *width)
+	{
+		write(1, MSG_ERROR_MAP_FORM, 61);
+		return (0);
+	}
+	if (current[len] == '\0')
+	{
+		if (!are_tiles_valid(*tiles))
+			return (0);
+	}
+	return (1);
 }
 
 int are_tiles_valid(struct s_tiles tiles)
 {
-    if (tiles.n_exits != 1)
-    {
-        write(1, MSG_ERROR_Nº_EXITS, 56);
-        return (0);
-    }
-    if (tiles.n_spawns != 1)
-    {
-        write(1, MSG_ERROR_Nº_SPAWNS, 55);
-        return (0);
-    }
-    if (tiles.n_collect < 1)
-    {
-        write(1, MSG_ERROR_Nº_COLECC, 63);
-        return (0);
-    }
-    return (1);
+	if (tiles.n_exits != 1)
+	{
+		write(1, MSG_ERROR_Nº_EXITS, 56);
+		return (0);
+	}
+	if (tiles.n_spawns != 1)
+	{
+		write(1, MSG_ERROR_Nº_SPAWNS, 55);
+		return (0);
+	}
+	if (tiles.n_collect < 1)
+	{
+		write(1, MSG_ERROR_Nº_COLECC, 63);
+		return (0);
+	}
+	return (1);
 }
 
-int is_map_valid(const char *map_source, int *fd)
+int are_params_valid(int argc, char *map_source)
 {
-    char *ptr;
+	int	fd;
 
-    ptr = ft_strrchr(map_source, '.');
-    if (ptr == NULL)
-    {
-        write(1, MSG_ERROR_FILE_TYPE, 64);
-        return (0);
-    }
-    if (ft_strncmp(ptr, ".ber", 4))
-    {
-        write(1, MSG_ERROR_FILE_TYPE, 64);
-        return (0);
-    }
-    *fd = open(map_source, O_RDONLY);
-    if (*fd == -1)
-    {
-        write (1, MSG_ERROR_FILE_NAME, 77);
-        return (0);
-    }
-    return 1;
+	if (argc != 2)
+	{
+		write(1, MSG_ERROR_Nª_PARAMS, 73);
+		return (-1);
+	}
+	if (!ft_strendswith(map_source, ".ber"))
+	{
+		write(1, MSG_ERROR_FILE_TYPE, 64);
+		return (-1);
+	}
+	fd = open(map_source, O_RDONLY);
+	if (fd == -1)
+		write(1, MSG_ERROR_FILE_NAME, 77);
+	return (fd);
 }
 
 int are_borders_valid(t_matrix *ptr_map)
 {
-    size_t i;
-    size_t j;
+	size_t i;
+	size_t j;
 
-    j = 0;
-    while (j < ptr_map->width)
-    {
-        if ((ptr_map->matrix)[0][j] != '1' || (ptr_map->matrix)[ptr_map->height - 1][j] != '1')
-        {
-            arr_arr_free(ptr_map->matrix, ptr_map->height);
-            ptr_map->matrix = NULL;
-            write(1, MSG_ERROR_MAP_LIMITS, 66);
-            return (0);
-        }
-        j++;
-    }
-    i = 0;
-    while (i < ptr_map->height)
-    {
-        if ((ptr_map->matrix)[i][0] != '1' || (ptr_map->matrix)[i][ptr_map->width - 1] != '1')
-        {
-            arr_arr_free(ptr_map->matrix, ptr_map->height);
-            ptr_map->matrix = NULL;
-            write(1, MSG_ERROR_MAP_LIMITS, 66);
-            return (0);
-        }
-        i++;
-    }
-    return (1);
+	j = 0;
+	while (j < ptr_map->width)
+	{
+		if ((ptr_map->matrix)[0][j] != '1' || (ptr_map->matrix)[ptr_map->height - 1][j] != '1')
+		{
+			arr_arr_free(ptr_map->matrix, ptr_map->height);
+			ptr_map->matrix = NULL;
+			write(1, MSG_ERROR_MAP_LIMITS, 66);
+			return (0);
+		}
+		j++;
+	}
+	i = 0;
+	while (i < ptr_map->height)
+	{
+		if ((ptr_map->matrix)[i][0] != '1' || (ptr_map->matrix)[i][ptr_map->width - 1] != '1')
+		{
+			arr_arr_free(ptr_map->matrix, ptr_map->height);
+			ptr_map->matrix = NULL;
+			write(1, MSG_ERROR_MAP_LIMITS, 66);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

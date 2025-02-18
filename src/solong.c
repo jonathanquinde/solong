@@ -17,12 +17,8 @@ int main(int argc, char *argv[])
     int fd;
     t_matrix map;
 
-    if (argc != 2)
-    {
-        write(1, MSG_ERROR_Nª_PARAMS, 73);
-        return (1);
-    }
-    if (!is_map_valid(argv[1], &fd))
+    fd = are_params_valid(argc, argv[1]);
+    if (fd == -1)
         return (0);
     map = get_matrix(fd);
     if (map.matrix == NULL)
