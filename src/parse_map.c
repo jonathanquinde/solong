@@ -26,7 +26,7 @@ t_matrix get_matrix(int fd)
         write(1, MSG_ERROR_MALLOC_FAIL ": 4", 42);
         return (map);
     }
-    initialize_matrix(lines, map.matrix + (map.height - 1));
+    lst_to_matrix(lines, map.matrix + (map.height - 1));
     ft_lstclear(&lines, free);
     if (are_borders_valid(&map))
         return (map);

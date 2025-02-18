@@ -17,16 +17,16 @@
 
 typedef struct s_matrix
 {
-    unsigned char **matrix;
-    size_t width;
-    size_t height;
+	unsigned char **matrix;
+	size_t width;
+	size_t height;
 }              t_matrix;
 
 struct s_tiles
 {
-    size_t n_collect;
-    size_t n_spawns;
-    size_t n_exits;
+	size_t n_collect;
+	size_t n_spawns;
+	size_t n_exits;
 };
 
 t_matrix get_matrix(int fd);
@@ -37,7 +37,7 @@ int are_tiles_valid(struct s_tiles tiles);
 int are_borders_valid(t_matrix *ptr_map);
 
 unsigned char **matrix_new(size_t height, size_t width);
-void    initialize_matrix(t_list *node, unsigned char **row);
+void	lst_to_matrix(t_list *node, unsigned char **row);
 void arr_arr_free(unsigned char **matrix, size_t size);
 void    matrix_print(t_matrix matrix);
 
