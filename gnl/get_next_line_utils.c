@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:48:37 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/01/23 00:37:55 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:09:52 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	initialize_buffer(char **buffer)
 	{
 		*buffer = malloc(1);
 		if (*buffer == NULL)
-			return;
+			return ;
 		**buffer = '\0';
 	}
 }
@@ -66,7 +66,7 @@ int	is_newline(char *str, size_t len)
 		{
 			if (*str == '\n')
 				return (1);
-			str++;	
+			str++;
 		}
 		return (0);
 	}

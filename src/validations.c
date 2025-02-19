@@ -6,13 +6,13 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:24:44 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/01/23 00:24:44 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:09:21 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int is_char_valid(unsigned char buffer, struct s_tiles *tiles)
+int	is_char_valid(unsigned char buffer, struct s_tiles *tiles)
 {
 	if (buffer == '0')
 		return (1);
@@ -37,15 +37,15 @@ int is_char_valid(unsigned char buffer, struct s_tiles *tiles)
 	return (0);
 }
 
-int is_line_valid(char *current, size_t *width, struct s_tiles *tiles)
+int	is_line_valid(char *current, size_t *width, struct s_tiles *tiles)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (current[len] != '\n' && current[len] != '\0')
 	{
 		if (!is_char_valid(current[len], tiles))
-			return(0);
+			return (0);
 		len++;
 	}
 	if (*width == 0)
@@ -63,33 +63,33 @@ int is_line_valid(char *current, size_t *width, struct s_tiles *tiles)
 	return (1);
 }
 
-int are_tiles_valid(struct s_tiles tiles)
+int	are_tiles_valid(struct s_tiles tiles)
 {
 	if (tiles.n_exits != 1)
 	{
-		write(1, MSG_ERROR_Nº_EXITS, 56);
+		write(1, MSG_ERROR_N_EXITS, 56);
 		return (0);
 	}
 	if (tiles.n_spawns != 1)
 	{
-		write(1, MSG_ERROR_Nº_SPAWNS, 55);
+		write(1, MSG_ERROR_N_SPAWNS, 55);
 		return (0);
 	}
 	if (tiles.n_collect < 1)
 	{
-		write(1, MSG_ERROR_Nº_COLECC, 63);
+		write(1, MSG_ERROR_N_COLECC, 63);
 		return (0);
 	}
 	return (1);
 }
 
-int are_params_valid(int argc, char *map_source)
+int	are_params_valid(int argc, char *map_source)
 {
 	int	fd;
 
 	if (argc != 2)
 	{
-		write(1, MSG_ERROR_Nª_PARAMS, 73);
+		write(1, MSG_ERROR_N_PARAMS, 73);
 		return (-1);
 	}
 	if (!ft_strendswith(map_source, ".ber"))
@@ -103,10 +103,10 @@ int are_params_valid(int argc, char *map_source)
 	return (fd);
 }
 
-int are_borders_valid(t_matrix *ptr_map)
+int	are_borders_valid(t_matrix *ptr_map)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	j = 0;
 	while (j < ptr_map->width)
