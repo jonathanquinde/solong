@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:14:25 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 15:21:30 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:40:03 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ char	**matrix_new(size_t height, size_t width)
 
 	matrix = malloc(sizeof(char *) * height);
 	if (matrix == NULL)
+	{
+		write(1, MSG_ERROR_MALLOC_FAIL ": 4", 42);
 		return (NULL);
+	}
 	i = 0;
 	while (i < height)
 	{
@@ -27,6 +30,7 @@ char	**matrix_new(size_t height, size_t width)
 		if (matrix[i] == NULL)
 		{
 			arr_arr_free(matrix, i - 1);
+			write(1, MSG_ERROR_MALLOC_FAIL ": 4", 42);
 			return (NULL);
 		}
 		i++;

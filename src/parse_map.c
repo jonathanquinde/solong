@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:10:08 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 15:31:56 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:41:05 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,24 @@ t_matrix	get_matrix(int fd)
 	map.width = 0;
 	lines = read_lines(fd);
 	if (lines == NULL)
-		return (map);
-	map.width = ft_strlen(lines->content) - 1;
+		exit (EXIT_FAILURE);
+	//map.width = ft_strlen(lines->content);
+	map.width = 18;
 	validate_lines(lines, map.width);
 	map.height = ft_lstsize(lines);
 	map.matrix = matrix_new(map.height, map.width);
 	if (map.matrix == NULL)
 	{
 		ft_lstclear(&lines, free);
-		write(1, MSG_ERROR_MALLOC_FAIL ": 4", 42);
-		return (map);
+		exit (EXIT_FAILURE);
 	}
-	lst_to_matrix(lines, map.matrix + (map.height - 1));
+	lst_to_matrix(lines, &map.matrix[map.height - 1]);
 	ft_lstclear(&lines, free);
-	if (are_borders_valid(&map))
-		return (map);
-	//path_validation(&map);
+	if (!are_borders_valid(&map) || !is_spawn_valid(map))
+	{
+		arr_arr_free(map.matrix, map.height);
+		exit (EXIT_FAILURE);
+	}
 	return (map);
 }
 

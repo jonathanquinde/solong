@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 00:15:46 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 14:07:18 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:42:36 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	main(int argc, char *argv[])
 	if (fd == -1)
 		return (0);
 	map = get_matrix(fd);
-	if (map.matrix == NULL)
-		return (1);
 	matrix_print(map);
 	arr_arr_free(map.matrix, map.height);
 	return (0);

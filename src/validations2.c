@@ -1,44 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   validations2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 13:56:40 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 17:36:39 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/02/19 15:43:58 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/02/19 15:48:55 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	initialize_tiles(t_element_count *tiles)
+int	is_spawn_valid(t_matrix map)
 {
-	(tiles->n_collect) = 0;
-	(tiles->n_exits) = 0;
-	(tiles->n_spawns) = 0;
-}
+	size_t	x;
+	size_t	y;
 
-void	find_spawn(t_matrix map, size_t *x, size_t *y)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	printf("%zu %zu", map.height, map.width);
-	while (i < map.height)
-	{
-		j = 0;
-		while (j < map.width)
-		{
-			if (map.matrix[i][j] == 'P')
-			{
-				*y = i;
-				*x = j;
-				return ;
-			}
-			i++;
-			j++;
-		}
-	}
+	find_spawn(map, &x, &y);
+	ft_putnbr_fd((int) y, 1);
+	ft_putnbr_fd((int) x, 1);
+	return (1);
 }
