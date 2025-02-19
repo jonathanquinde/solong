@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Ruta al ejecutable
-EXECUTABLE="./solong"
+EXECUTABLE="valgrind --leak-check=full ./solong"
 
 # Carpeta que contiene los archivos
-FOLDER="./map/error/"
+FOLDER="./map/error"
 
 # Iterar sobre todos los archivos en la carpeta
 for file in "$FOLDER"/*
@@ -16,4 +16,4 @@ do
     fi
 done
 
-# sed -i 's/\r//g' archivo.txt
+# sed -i 's/\r//g' $file

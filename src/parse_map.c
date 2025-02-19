@@ -39,24 +39,14 @@ t_list *read_lines(int fd, size_t *size)
     t_list  *head;
     t_list  *new_node;
     char    *line;
-    struct s_tiles tiles;
 
-    initialize_tiles(&tiles);
     head = NULL;
     line = gnl(fd);
     if (line == NULL)
-        write(1, MSG_ERROR_MALLOC_FAIL ":1", 41);
+        write(1, MSG_ERROR_EMPTY_MAP, 21);
     while (line != NULL)
     {
         new_node = ft_lstnew(line);
-        if (!is_line_valid(line, size, &tiles) || new_node == NULL)
-        {
-            ft_lstclear(&head, free);
-            if (new_node == NULL)
-                write(1, MSG_ERROR_MALLOC_FAIL ":2", 41);
-            free (new_node);
-            return (NULL);
-        }
         ft_lstadd_front(&head, new_node);
         line = gnl(fd);
     } 

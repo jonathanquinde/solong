@@ -7,6 +7,7 @@
 #define MSG_ERROR_Nª_PARAMS "Error\nNumero de parametros erroneo. Inserte un solo archivo <nombre>.ber\n"
 #define MSG_ERROR_FILE_TYPE "Error\nTipo de archivo invalido. Inserte un archivo de tipo .ber\n"
 #define MSG_ERROR_FILE_NAME "Error\nError al intentar abrir el mapa. Compruebe que el nombre sea correcto\n"
+#define MSG_ERROR_EMPTY_MAP "Error\nArchivo vacio\n"
 #define MSG_ERROR_INVALID_CH "Error\nTipo de caracter invalido. Caracteres permitidos: 1, 0, E, C y P\n"
 #define MSG_ERROR_Nº_COLECC "Error\nNumero invalido de coleccionables. Minimo un caracter C\n"
 #define MSG_ERROR_Nº_EXITS "Error\nNumero invalido de salidas. Un unico caracter: E\n"
