@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:10:08 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 17:41:05 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:18:14 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_matrix	get_matrix(int fd)
 	}
 	lst_to_matrix(lines, &map.matrix[map.height - 1]);
 	ft_lstclear(&lines, free);
-	if (!are_borders_valid(&map) || !is_spawn_valid(map))
+	if (!are_borders_valid(map) || !is_spawn_valid(map))
 	{
 		arr_arr_free(map.matrix, map.height);
 		exit (EXIT_FAILURE);

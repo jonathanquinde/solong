@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:00:15 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 15:56:39 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:19:12 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int			are_params_valid(int argc, char *map_source);
 int			are_tiles_valid(t_element_count tiles);
 int			is_spawn_valid(t_matrix map);
 
-int			are_borders_valid(t_matrix *ptr_map);
+int			are_borders_valid(t_matrix ptr_map);
 
 char		**matrix_new(size_t height, size_t width);
 void		lst_to_matrix(t_list *node, char **row);
@@ -57,6 +57,6 @@ void		arr_arr_free(char **matrix, size_t size);
 void		matrix_print(t_matrix matrix);
 
 void		initialize_tiles(t_element_count *tiles);
-void		find_spawn(t_matrix map, size_t *x, size_t *y);
+void		find_spawn(t_matrix map, size_t *y, size_t *x);
 
 char		*gnl(int fd);
