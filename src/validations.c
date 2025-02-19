@@ -6,13 +6,13 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:24:44 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 14:09:21 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:17:59 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	is_char_valid(unsigned char buffer, struct s_tiles *tiles)
+int	is_char_valid(unsigned char buffer, t_element_count *tiles)
 {
 	if (buffer == '0')
 		return (1);
@@ -37,7 +37,7 @@ int	is_char_valid(unsigned char buffer, struct s_tiles *tiles)
 	return (0);
 }
 
-int	is_line_valid(char *current, size_t *width, struct s_tiles *tiles)
+int	is_line_valid(char *current, size_t width, t_element_count *tiles)
 {
 	size_t	len;
 
@@ -48,22 +48,15 @@ int	is_line_valid(char *current, size_t *width, struct s_tiles *tiles)
 			return (0);
 		len++;
 	}
-	if (*width == 0)
-		*width = len;
-	else if (len != *width)
+	if (len != width)
 	{
-		write(1, MSG_ERROR_MAP_FORM, 61);
+		write(1, MSG_ERROR_MAP_FORM, 80);
 		return (0);
-	}
-	if (current[len] == '\0')
-	{
-		if (!are_tiles_valid(*tiles))
-			return (0);
 	}
 	return (1);
 }
 
-int	are_tiles_valid(struct s_tiles tiles)
+int	are_tiles_valid(t_element_count tiles)
 {
 	if (tiles.n_exits != 1)
 	{

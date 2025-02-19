@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:14:25 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 14:08:03 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:21:30 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**matrix_new(size_t height, size_t width)
 {
-	unsigned char	**matrix;
+	char	**matrix;
 	size_t			i;
 
 	matrix = malloc(sizeof(char *) * height);
