@@ -42,6 +42,13 @@ typedef struct s_element_count
 	size_t	n_exits;
 }			t_element_count;
 
+typedef struct s_tile
+{
+	size_t	i;
+	size_t	j;
+}			t_tile;
+
+
 t_matrix	get_matrix(int fd);
 
 int			is_line_valid(char *current, size_t width, t_element_count *tiles);
