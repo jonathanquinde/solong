@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include "get_next_line.h"
+#include "queue.h"
 #include <stdio.h>
 #include <fcntl.h>
 
