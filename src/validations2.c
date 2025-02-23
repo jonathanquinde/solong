@@ -14,9 +14,13 @@
 
 int	is_spawn_valid(t_matrix map)
 {
-	size_t	y;
-	size_t	x;
+	t_tile	spawn;
+	size_t	n_collections;
+	char	**visited;
 
-	find_spawn(map, &y, &x);
+	visited = matrix_new(map.height, map.width);
+	if (visited == NULL)
+		return (0);
+	traverse_matrix(map, &spawn, &n_collections, visited);
 	return (1);
 }

@@ -64,6 +64,6 @@ void		arr_arr_free(char **matrix, size_t size);
 void		matrix_print(t_matrix matrix);
 
 void		initialize_tiles(t_element_count *tiles);
-void		find_spawn(t_matrix map, size_t *y, size_t *x);
+void		traverse_matrix(t_matrix map, t_tile *spawn, size_t *n_collections, char **visited);
 
 char		*gnl(int fd);

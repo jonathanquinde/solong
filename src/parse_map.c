@@ -26,7 +26,6 @@ t_matrix	get_matrix(int fd)
 	t_list		*lines;
 
 	map.matrix = NULL;
-	map.width = 0;
 	lines = read_lines(fd);
 	if (lines == NULL)
 		exit (EXIT_FAILURE);

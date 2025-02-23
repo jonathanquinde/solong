@@ -19,23 +19,29 @@ void	initialize_tiles(t_element_count *tiles)
 	(tiles->n_spawns) = 0;
 }
 
-void	find_spawn(t_matrix map, size_t *y, size_t *x)
+void	traverse_matrix(t_matrix map, t_tile *spawn, size_t *n_collections, char **visited)
 {
 	size_t	i;
 	size_t	j;
 
-	i = 0;
-	while (i < map.height)
+	*n_collections = 0;
+	i = 1;
+	while (i < map.height - 1)
 	{
-		j = 0;
-		while (j < map.width)
+		j = 1;
+		while (j < map.width - 1)
 		{
 			if (map.matrix[i][j] == 'P')
 			{
-				*y = i;
-				*x = j;
-				return ;
+				spawn->i = i;
+				spawn->j = j;
 			}
+			if (map.matrix[i][j] == 'C')
+				(*n_collections)++;
+			if (map.matrix[i][j] == '1')
+				visited[i][j] = 1;
+			else
+				visited[i][j] = 0;
 			j++;
 		}
 		i++;

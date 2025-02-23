@@ -50,7 +50,7 @@ int	is_line_valid(char *current, size_t width, t_element_count *tiles)
 	}
 	if (len != width)
 	{
-		write(1, MSG_ERROR_MAP_FORM, 81);
+		write(1, MSG_ERROR_MAP_FORM, 80);
 		return (0);
 	}
 	return (1);
