@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "get_next_line.h"
 #include "queue.h"
 #include <stdio.h>
@@ -27,6 +26,7 @@
 #define MSG_ERROR_MAP_FORM "Error\nForma del mapa invalido. Requiere un mapa rectangular de minimo 3 lineas\n"
 #define MSG_ERROR_MAP_LIMITS "Error\nMapa no cerrado. Requiere un mapa rodeados de caracteres 1\n"
 #define MSG_ERROR_N_PARAMS "Error\nNumero de parametros erroneo. Iniserte un solo archivo <nombre>.ber\n"
+#define MSG_ERROR_PATH "Error\nEl mapa contiene una salida o collecionables no alcanzables\n"
 #define MSG_ERROR "Error\n\n"
 
 typedef struct s_matrix
@@ -55,9 +55,8 @@ t_matrix	get_matrix(int fd);
 int			is_line_valid(char *current, size_t width, t_element_count *tiles);
 int			are_params_valid(int argc, char *map_source);
 int			are_tiles_valid(t_element_count tiles);
-int			is_spawn_valid(t_matrix map);
-
 int			are_borders_valid(t_matrix ptr_map);
+int			is_spawn_valid(t_matrix map);
 
 char		**matrix_new(size_t height, size_t width);
 void		lst_to_matrix(t_list *node, char **row);
@@ -66,5 +65,7 @@ void		matrix_print(t_matrix matrix);
 
 void		initialize_tiles(t_element_count *tiles);
 void		traverse_matrix(t_matrix map, t_tile *spawn, size_t *n_collections, char **visited);
+
+int			bfs(t_matrix map, char **visited, size_t n_collections, t_tile *spawn);
 
 char		*gnl(int fd);

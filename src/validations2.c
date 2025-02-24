@@ -14,13 +14,22 @@
 
 int	is_spawn_valid(t_matrix map)
 {
-	t_tile	spawn;
+	int		flag;
+	t_tile	*spawn;
 	size_t	n_collections;
 	char	**visited;
 
 	visited = matrix_new(map.height, map.width);
 	if (visited == NULL)
 		return (0);
-	traverse_matrix(map, &spawn, &n_collections, visited);
-	return (1);
+	spawn = malloc(sizeof(t_tile));
+	if (spawn == NULL)
+		return (0);
+	traverse_matrix(map, spawn, &n_collections, visited);
+	visited[spawn->i][spawn->j] = 1;
+	flag = bfs(map, visited, n_collections, spawn);
+	if (flag == 0)
+		write(1, MSG_ERROR_PATH, 67);
+	arr_arr_free(visited, map.height);
+	return (flag);
 }

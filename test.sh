@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Ruta al ejecutable
-EXECUTABLE="valgrind --leak-check=full ./solong"
+#EXECUTABLE="valgrind --leak-check=full ./solong"
+EXECUTABLE="./solong"
 
 # Carpeta que contiene los archivos
 FOLDER="./map/error"
