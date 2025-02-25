@@ -14,6 +14,7 @@
 
 t_list	*read_lines(int fd);
 void	validate_lines(t_list *lst, size_t width);
+void	lst_to_matrix(t_list *node, char **row);
 
 	//Solo 5 caracteres: 0 1 C(>0) E(1) P(1)
 	//Debe ser rectangular
@@ -33,7 +34,7 @@ t_matrix	get_matrix(int fd)
 	map.width = 18;
 	validate_lines(lines, map.width);
 	map.height = ft_lstsize(lines);
-	map.matrix = matrix_new(map.height, map.width);
+	map = matrix_new(map.height, map.width);
 	if (map.matrix == NULL)
 	{
 		ft_lstclear(&lines, free);
@@ -75,6 +76,20 @@ void	validate_lines(t_list *lst, size_t width)
 	{
 		ft_lstclear(&lst, free);
 		exit (EXIT_FAILURE);
+	}
+}
+
+void	lst_to_matrix(t_list *node, char **row)
+{
+	size_t	j;
+
+	j = 0;
+	if (node->next != NULL)
+		lst_to_matrix(node->next, row - 1);
+	while (((char *)node->content)[j] != '\n' && ((char *)node->content)[j] != '\0')
+	{
+		(*row)[j] = ((char *)node->content)[j];
+		j++;
 	}
 }
 

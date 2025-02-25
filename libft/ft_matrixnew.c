@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_matrixnew.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 14:43:55 by jquinde-          #+#    #+#             */
-/*   Updated: 2024/10/22 15:10:30 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/02/25 13:23:42 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/02/25 13:23:42 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "matrix.h"
 
-int	ft_atoi(const char *ntpr)
+t_matrix matrix_new(size_t height, size_t width)
 {
-	int	sign;
-	int	num;
+	size_t		i;
+	t_matrix	t;
 
-	num = 0;
-	if (ntpr == NULL)
-		return (num);
-	while (*ntpr == ' ' || (*ntpr >= '\t' && *ntpr <= '\r'))
-		ntpr++;
-	sign = 1;
-	if (*ntpr == '+' || *ntpr == '-')
+	t.height = 0;
+	t.width = 0;
+	t.matrix = malloc(sizeof(char *) * height);
+	if (t.matrix == NULL)
+		return (t);
+	i = 0;
+	while (i < height)
 	{
-		if (*ntpr == '-')
-			sign = -1;
-		ntpr++;
+		t.matrix[i] = malloc(sizeof(char) * width);
+		if (t.matrix[i] == NULL)
+		{
+			arr_arr_free(t.matrix, i);
+			return (t);
+		}
+		i++;
 	}
-	while (ft_isdigit(*ntpr))
-	{
-		num = num * 10 + (*ntpr - '0');
-		ntpr++;
-	}
-	return (num * sign);
+	t.height = height;
+	t.width = width;
+	return (t);
 }

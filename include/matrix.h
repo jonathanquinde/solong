@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lsnew_bonus.c                                   :+:      :+:    :+:   */
+/*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 14:21:00 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/18 14:21:01 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/02/25 13:49:34 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/02/25 13:49:34 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list *ft_lstnew(void *content)
+#ifndef MATRIX_H
+# define MATRIX_H
+typedef struct s_matrix
 {
-    t_list *new_node;
+	char	**matrix;
+	size_t	width;
+	size_t	height;
+}					t_matrix;
 
-    new_node = malloc(sizeof(t_list));
-    if (new_node == NULL)
-        return (NULL);
-    new_node->content = content;
-    new_node->next = NULL;
-    return (new_node);
-}
+void		matrix_print(t_matrix matrix);
+t_matrix	matrix_new(size_t height, size_t width);
+#endif

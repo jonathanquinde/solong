@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 18:08:43 by jquinde-          #+#    #+#             */
-/*   Updated: 2024/09/25 13:49:55 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/01/23 21:00:03 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
 	size_t	i;
-	size_t	len;
 
-	len = ft_strlen(s);
+	if (s == NULL || f == NULL)
+		return ;
 	i = 0;
-	while (i < len)
+	while (s[i])
 	{
-		(*f)(i, s);
-		s++;
+		(*f)(i, &s[i]);
 		i++;
 	}
 }

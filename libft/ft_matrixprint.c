@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_matrixprint.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 14:43:55 by jquinde-          #+#    #+#             */
-/*   Updated: 2024/10/22 15:10:30 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/02/25 13:28:31 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/02/25 13:28:31 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "matrix.h"
 
-int	ft_atoi(const char *ntpr)
+void	matrix_print(t_matrix matrix)
 {
-	int	sign;
-	int	num;
+	size_t	i;
+	size_t	j;
 
-	num = 0;
-	if (ntpr == NULL)
-		return (num);
-	while (*ntpr == ' ' || (*ntpr >= '\t' && *ntpr <= '\r'))
-		ntpr++;
-	sign = 1;
-	if (*ntpr == '+' || *ntpr == '-')
+	i = 0;
+	while (i < matrix.height)
 	{
-		if (*ntpr == '-')
-			sign = -1;
-		ntpr++;
+		j = 0;
+		while (j < matrix.width)
+		{
+			write(1, &matrix.matrix[i][j], 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
 	}
-	while (ft_isdigit(*ntpr))
-	{
-		num = num * 10 + (*ntpr - '0');
-		ntpr++;
-	}
-	return (num * sign);
 }
