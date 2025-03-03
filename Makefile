@@ -1,11 +1,33 @@
 NAME = solong
-FLAGS = -Wall -Werror -Wextra
 CC = cc
-HEADERS = include/header.h include/libft.h include/get_next_line.h
-LIBFT = libft/libft.a
-GNL = gnl/get_next_line.c gnl/get_next_line_utils.c
-SRC = src/solong.c src/parse_map.c src/validations.c src/utils.c src/validations2.c src/bfs.c
-all: $(NAME)
+FLAGS = -Wall -Werror -Wextra
 
-$(NAME): $(SRC) $(GNL) $(LIBFT) $(HEADERS)
-	$(CC) -I include $(FLAGS) $(SRC) $(GNL) $(LIBFT) -o $(NAME) 
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+HEADERS = include/header.h include/libft.h include/file.h include/matrix.h include/queue.h
+SRC = src/solong.c src/parse_map.c src/validations.c src/utils.c src/validations2.c src/bfs.c
+OBJS = $(SRC:.c=.o)
+
+all: $(LIBFT) $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+
+%.o: %.c $(HEADERS)
+	$(CC) $(FLAGS) -I include -c $< -o $@
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
+
+clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean
+	rm -f $(OBJS)
+
+fclean: clean
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re

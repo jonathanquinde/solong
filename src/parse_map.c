@@ -27,11 +27,10 @@ t_matrix	get_matrix(int fd)
 	t_list		*lines;
 
 	map.matrix = NULL;
-	lines = read_lines(fd);
+    lines = ft_rreadlines(fd);
 	if (lines == NULL)
 		exit (EXIT_FAILURE);
-	//map.width = ft_strlen(lines->content);
-	map.width = 18;
+	map.width = ft_strlen(lines->content);
 	validate_lines(lines, map.width);
 	map.height = ft_lstsize(lines);
 	map = matrix_new(map.height, map.width);
@@ -91,23 +90,4 @@ void	lst_to_matrix(t_list *node, char **row)
 		(*row)[j] = ((char *)node->content)[j];
 		j++;
 	}
-}
-
-t_list *read_lines(int fd)
-{
-	t_list  *head;
-	t_list  *new_node;
-	char    *line;
-
-	head = NULL;
-	line = gnl(fd);
-	if (line == NULL)
-		write(1, MSG_ERROR_EMPTY_MAP, 21);
-	while (line != NULL)
-	{
-		new_node = ft_lstnew(line);
-		ft_lstadd_front(&head, new_node);
-		line = gnl(fd);
-	}
-	return (head);
 }

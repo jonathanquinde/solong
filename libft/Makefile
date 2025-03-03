@@ -15,25 +15,28 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c \
 			ft_lstadd_front_bonus.c ft_lstnew_bonus.c ft_lstadd_back_bonus.c \
 			ft_lstclear_bonus.c ft_lstdelone_bonus.c ft_lstiter_bonus.c \
 			ft_lstlast_bonus.c ft_lstmap_bonus.c ft_lstsize_bonus.c \
-			ft_matrixnew.c ft_arrarrfree.c ft_matrixprint.c ft_strendswith.c
+			ft_matrixnew.c ft_arrarrfree.c ft_matrixprint.c ft_strendswith.c \
+			ft_lstnew_s.c ft_lstreverse.c
 SRC_ADT = ADT/queue.c
+SRC_FILE = ft_raw_rreadtext.c ft_readtext.c ft_rreadlines.c
 OBJ = $(SRC:.c=.o)
 OBJ_ADT = $(SRC_ADT:.c=.o)
+OBJ_FILE = $(SRC_FILE:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(OBJ_ADT)
-	ar rcs $(NAME) $(OBJ) $(OBJ_ADT)
+$(NAME): $(OBJ) $(OBJ_ADT) $(OBJ_FILE)
+	ar rcs $(NAME) $(OBJ) $(OBJ_ADT) $(OBJ_FILE)
 	@echo "Library $(NAME) created successfully!"
 
 %.o: %.c
-	$(CC) -I include $(CFLAGS) -c $< -o $@
+	$(CC) -I ../include $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(OBJ_ADT)
+	rm -f $(OBJ) $(OBJ_ADT) $(OBJ_FILE)
 	@echo "Object files cleaned."
 
 fclean: clean

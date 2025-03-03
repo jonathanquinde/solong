@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "queue.h"
 #include "libft.h"
 #include "matrix.h"
+#include "file.h"
 #include <stdio.h>
 #include <fcntl.h>
 

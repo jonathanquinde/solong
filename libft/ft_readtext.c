@@ -10,58 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "file.h"
 
-char    *readtext(int fd)
+void	ft_rlist_to_str(t_list *node, char *buffer);
+
+char    *ft_readtext(int fd)
 {
 	t_list  *text;
+	size_t  size_lst;
+	size_t  size_lastread; 
+	char    *buffer;
 
-	text = read_all(fd);
+	text = NULL;
+	ft_raw_rreadtext(fd, &text);
+	if (text == NULL)
+		return (NULL);
+	size_lst = ft_lstsize(text); 
+	size_lastread = ft_strlen(text->content);
+	buffer = malloc((size_lst - 1) * BUFFER_SIZE + size_lastread + 1);
+    if (buffer == NULL)
+    {
+        ft_lstclear(&text, free);
+        return (NULL);
+    }
+    buffer[(size_lst - 1) * BUFFER_SIZE + size_lastread] = '\0';
+	ft_rlist_to_str(text, buffer + (size_lst - 1) * BUFFER_SIZE);
+	ft_lstclear(&text, free);
+	return (buffer);
 }
 
-t_list  *read_all(int fd)
+void	ft_rlist_to_str(t_list *node, char *buffer)
 {
-	t_list  *head;
-	t_list  *node;
-	char    *buffer;
-	int     num_bytes;
+	char	*i;
 
-	head = NULL;
-	buffer == malloc(BUFFER_SIZE + 1);
-	node = ft_lstnew(buffer);
-	if (node == NULL || buffer == NULL)
+	if (node == NULL)
+		return ;
+	i = node->content;
+	while (*i)
 	{
-		free (node);
-		free (buffer);
-		return (NULL);
+		*buffer = *i;
+		i++;
+		buffer++;
 	}
-	num_bytes = read(fd, node->content, BUFFER_SIZE);
-	num_bytes = 1;
-	while (num_bytes > 0)
-	{
-		buffer[num_bytes] = '\0';
-		ft_lstadd_front(&head, node);
-		buffer == malloc(BUFFER_SIZE + 1);
-		node = ft_lstnew(buffer);
-		if (node == NULL || buffer == NULL)
-		{
-			ft_lstclear(&head, free);
-			free (node);
-			free (buffer);
-			return (NULL);
-		}
-		num_bytes = read(fd, buffer, BUFFER_SIZE);
-	}
-	free (node);
-	free (buffer);
-	//Archivo ya no existe
-	if (num_bytes == -1)
-	{
-		ft_lstclear(&head, free);
-		free (NULL);
-	}
-	//El archivo estaba vacio
-	if (head == NULL)
-		return (NULL);
-	return (head);
+	ft_rlist_to_str(node->next, buffer - ((i - (char *)node->content) + BUFFER_SIZE));
 }
