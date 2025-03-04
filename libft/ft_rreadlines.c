@@ -23,15 +23,15 @@ t_list  *ft_rreadlines(int fd)
     text = ft_readtext(fd);
 	if (text == NULL)
 		return (NULL);
+    if (*text == '\0')
+    {
+        lines = ft_lstnew(text);
+        if (lines == NULL)
+            write(1, "Error\nAlocacion de memoria fallida\n", 36);
+        return (lines);
+    }
     lines = NULL;
     text_to_lines(&lines, text);
-    /*
-	n_lines = count_lines(raw_text);
-	ft_putnbr_fd(n_lines, 1);
-	lines = malloc(sizeof(char *) * n_lines + 1);
-	if (lines == NULL)
-		;
-    */
     free (text);
     return (lines);
 }
@@ -51,6 +51,7 @@ void    text_to_lines(t_list **lines, char *text)
         node = ft_lstnew(malloc(end - start + 1));
         if (node == NULL)
         {
+            write(1, "Error\nAlocacion de memoria fallida\n", 36);
             ft_lstclear(lines, free);
             return ;
         }

@@ -12,6 +12,8 @@
 
 #include "file.h"
 
+void	ft_assert_rawrreadtext(int num_bytes,t_list **head);
+
 void	ft_raw_rreadtext(int fd, t_list **head)
 {
 	t_list  *node;
@@ -22,21 +24,30 @@ void	ft_raw_rreadtext(int fd, t_list **head)
 		node = ft_lstnew_s(malloc(BUFFER_SIZE + 1));
 		if (node == NULL)
 		{
-			//perror("Memory allocation failed");
+            write(1, "Error\nAlocacion de memoria fallida\n", 36);
 			ft_lstclear(head, free);
 			return ;
 		}
 		num_bytes = read(fd, node->content, BUFFER_SIZE);
-		if (num_bytes == -1 || num_bytes == 0) // Error reading file
-		{
-			ft_lstdelone(node, free);
-			if (num_bytes == 0)
-				return ;
-			//perror("Error reading file");
-			ft_lstclear(head, free);
-			return ;
-		}
-		((char *) node->content)[num_bytes] = '\0'; // Null-terminate the string
+		if (num_bytes == -1 || num_bytes == 0)
+            break ;
+		((char *) node->content)[num_bytes] = '\0';
 		ft_lstadd_front(head, node);
 	}
+    ft_lstdelone(node, free);
+	ft_assert_rawrreadtext(num_bytes, head);
+}
+
+void	ft_assert_rawrreadtext(int num_bytes,t_list **head)
+{
+	if (num_bytes == -1)
+	{
+		write(1, "Error\nEl archivo ya no exite\n", 30);
+    	ft_lstclear(head, free);
+		return ;
+	}
+    if (*head == NULL)
+        *head = ft_lstnew(NULL);
+		if (*head == NULL)
+ 	       write(1, "Error\nAlocacion de memoria fallida\n", 36);
 }

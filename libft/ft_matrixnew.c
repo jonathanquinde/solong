@@ -10,25 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
+#include "libft.h"
 
-t_matrix matrix_new(size_t height, size_t width)
+t_matrx matrix_new(size_t height, size_t width)
 {
-	size_t		i;
-	t_matrix	t;
+	size_t  i;
+	t_matrx t;
 
 	t.height = 0;
 	t.width = 0;
-	t.matrix = malloc(sizeof(char *) * height);
-	if (t.matrix == NULL)
+	t.data = malloc(sizeof(char *) * height);
+	if (t.data == NULL)
 		return (t);
 	i = 0;
 	while (i < height)
 	{
-		t.matrix[i] = malloc(sizeof(char) * width);
-		if (t.matrix[i] == NULL)
+		t.data[i] = malloc(sizeof(char) * width);
+		if (t.data[i] == NULL)
 		{
-			arr_arr_free(t.matrix, i);
+			arr_arr_free(t.data, i);
 			return (t);
 		}
 		i++;

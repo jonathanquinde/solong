@@ -27,6 +27,13 @@ typedef enum e_bool
 	true
 }	t_bool;
 
+typedef struct s_matrx
+{
+	char	**data;
+	size_t	width;
+	size_t	height;
+}					t_matrx;
+
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -79,4 +86,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstnew_s(void *content);
 void    ft_lstreverse(t_list **lst);
+
+void    matrix_print(t_matrx matrix);
+t_matrx matrix_new(size_t height, size_t width);
 #endif

@@ -1,5 +1,6 @@
 NAME = libft.a
 
+HEADERS = ../include/file.h ../include/libft.h ../include/queue.h
 SRC = ft_atoi.c ft_bzero.c ft_calloc.c \
 			ft_isalnum.c ft_isalpha.c ft_isascii.c \
 			ft_isdigit.c ft_isprint.c ft_itoa.c \
@@ -32,7 +33,7 @@ $(NAME): $(OBJ) $(OBJ_ADT) $(OBJ_FILE)
 	ar rcs $(NAME) $(OBJ) $(OBJ_ADT) $(OBJ_FILE)
 	@echo "Library $(NAME) created successfully!"
 
-%.o: %.c
+%.o: %.c $(HEADERS)
 	$(CC) -I ../include $(CFLAGS) -c $< -o $@
 
 clean:

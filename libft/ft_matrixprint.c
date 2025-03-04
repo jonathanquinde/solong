@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
+#include "libft.h"
 
-void	matrix_print(t_matrix matrix)
+void	matrix_print(t_matrx matrix)
 {
 	size_t	i;
 	size_t	j;
@@ -23,7 +23,7 @@ void	matrix_print(t_matrix matrix)
 		j = 0;
 		while (j < matrix.width)
 		{
-			write(1, &matrix.matrix[i][j], 1);
+			write(1, &matrix.data[i][j], 1);
 			j++;
 		}
 		write(1, "\n", 1);
