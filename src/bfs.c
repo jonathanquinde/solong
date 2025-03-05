@@ -17,7 +17,7 @@ void	peek_tile(size_t *collected, char *found_exit, char ch);
 void	expand(t_tile **search_tiles, t_tile *search_tile);
 void	initialize_collec_foundext(size_t *collec, char *found_exit);
 
-int	bfs(t_matrix map, char **visited, size_t n_collections, t_tile *spawn)
+int	bfs(t_map *map, char **visited, t_tile *spawn)
 {
 	t_queue	queue;
 	t_tile	*search_tiles[4];
@@ -34,17 +34,17 @@ int	bfs(t_matrix map, char **visited, size_t n_collections, t_tile *spawn)
 		i = 0;
 		while (i < 4)
 		{
-			if (!visited[search_tiles[i]->i][search_tiles[i]->j] && map.matrix[search_tiles[i]->i][search_tiles[i]->j] != '1')
+			if (visited[search_tiles[i]->i][search_tiles[i]->j])
+				free(search_tiles[i]);
+			else
 			{
 				update_bfs(visited, search_tiles[i], &queue);
-				peek_tile(&collected, &found_exit, map.matrix[search_tiles[i]->i][search_tiles[i]->j]);
+				peek_tile(&collected, &found_exit, map->matrix.data[search_tiles[i]->i][search_tiles[i]->j]);
 			}	
-			else
-				free(search_tiles[i]);
 			i++;
 		}
 	}
-	return (collected == n_collections && found_exit);	
+	return (collected == map->n_collects && found_exit);	
 }
 
 void	update_bfs(char **visited, t_tile *search_tile, t_queue *queue)

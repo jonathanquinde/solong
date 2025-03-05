@@ -14,14 +14,14 @@
 
 int	main(int argc, char *argv[])
 {
-	int			fd;
-	t_matrix	map;
+	int	    fd;
+	t_map   map;
 
 	fd = are_params_valid(argc, argv[1]);
 	if (fd == -1)
 		return (0);
-	map = get_matrix(fd);
-	matrix_print(map);
-	arr_arr_free(map.matrix, map.height);
+	map = get_map(fd);
+	//matrix_print(map.matrix);
+	arr_arr_free(map.matrix.data, map.matrix.height);
 	return (0);
 }

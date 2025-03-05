@@ -11,25 +11,25 @@
 /* ************************************************************************** */
 
 #include "header.h"
+#include <stdio.h>
 
-int	is_spawn_valid(t_matrix map)
+t_bool  is_spawn_valid(t_map *map)
 {
-	int			flag;
-	t_tile		*spawn;
-	size_t		n_collections;
-	t_matrix	visited;
+	t_bool	flag;
+	t_tile	*spawn;
+	t_matrx	visited;
 
-	visited = matrix_new(map.height, map.width);
-	if (visited.matrix == NULL)
-		return (0);
+	visited = matrix_new(map->matrix.height, map->matrix.width);
+	if (visited.data == NULL)
+		return (false);
 	spawn = malloc(sizeof(t_tile));
 	if (spawn == NULL)
-		return (0);
-	traverse_matrix(map, spawn, &n_collections, visited.matrix);
-	visited.matrix[spawn->i][spawn->j] = 1;
-	flag = bfs(map, visited.matrix, n_collections, spawn);
-	if (flag == 0)
+		return (false);
+	traverse_matrix(map->matrix, spawn, visited.data);
+	visited.data[spawn->i][spawn->j] = 1;
+	flag = bfs(map, visited.data, spawn);
+	if (flag == false)
 		write(1, MSG_ERROR_PATH, 67);
-	arr_arr_free(visited.matrix, visited.height);
+	arr_arr_free(visited.data, visited.height);
 	return (flag);
 }

@@ -12,6 +12,8 @@
 
 #include "header.h"
 
+void    fill_borders(size_t height, size_t width, char **visited);
+
 void	initialize_tiles(t_element_count *tiles)
 {
 	(tiles->n_collect) = 0;
@@ -19,26 +21,23 @@ void	initialize_tiles(t_element_count *tiles)
 	(tiles->n_spawns) = 0;
 }
 
-void	traverse_matrix(t_matrix map, t_tile *spawn, size_t *n_collections, char **visited)
+void	traverse_matrix(t_matrx matrix, t_tile *spawn, char **visited)
 {
 	size_t	i;
 	size_t	j;
 
-	*n_collections = 0;
 	i = 1;
-	while (i < map.height - 1)
+	while (i < matrix.height - 1)
 	{
 		j = 1;
-		while (j < map.width - 1)
+		while (j < matrix.width - 1)
 		{
-			if (map.matrix[i][j] == 'P')
+			if (matrix.data[i][j] == 'P')
 			{
 				spawn->i = i;
 				spawn->j = j;
 			}
-			if (map.matrix[i][j] == 'C')
-				(*n_collections)++;
-			if (map.matrix[i][j] == '1')
+			if (matrix.data[i][j] == '1')
 				visited[i][j] = 1;
 			else
 				visited[i][j] = 0;
@@ -46,4 +45,27 @@ void	traverse_matrix(t_matrix map, t_tile *spawn, size_t *n_collections, char **
 		}
 		i++;
 	}
+    fill_borders(matrix.height, matrix.width, visited);
+}
+
+void    fill_borders(size_t height, size_t width, char **visited)
+{
+	size_t	i;
+	size_t	j;
+
+	j = 0;
+	while (j < width)
+	{
+		visited[0][j] = 1; 
+        visited[height - 1][j] = 1;
+		j++;
+	}
+	i = 0;
+	while (i < height)
+	{
+        visited[i][0] = 1;
+        visited[i][width - 1] = 1;
+		i++;
+	}
+
 }

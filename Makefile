@@ -5,7 +5,7 @@ FLAGS = -Wall -Werror -Wextra
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-HEADERS = include/header.h include/libft.h include/file.h include/matrix.h include/queue.h
+HEADERS = include/header.h include/libft.h include/file.h include/queue.h
 SRC = src/solong.c src/parse_map.c src/validations.c src/utils.c src/validations2.c src/bfs.c
 OBJS = $(SRC:.c=.o)
 

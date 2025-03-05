@@ -96,7 +96,7 @@ int	are_params_valid(int argc, char *map_source)
 	return (fd);
 }
 
-int	are_borders_valid(t_matrix ptr_map)
+int	are_borders_valid(t_matrx ptr_map)
 {
 	size_t	i;
 	size_t	j;
@@ -104,7 +104,7 @@ int	are_borders_valid(t_matrix ptr_map)
 	j = 0;
 	while (j < ptr_map.width)
 	{
-		if ((ptr_map.matrix)[0][j] != '1' || (ptr_map.matrix)[ptr_map.height - 1][j] != '1')
+		if ((ptr_map.data)[0][j] != '1' || (ptr_map.data)[ptr_map.height - 1][j] != '1')
 		{
 			write(1, MSG_ERROR_MAP_LIMITS, 66);
 			return (0);
@@ -114,7 +114,7 @@ int	are_borders_valid(t_matrix ptr_map)
 	i = 0;
 	while (i < ptr_map.height)
 	{
-		if ((ptr_map.matrix)[i][0] != '1' || (ptr_map.matrix)[i][ptr_map.width - 1] != '1')
+		if ((ptr_map.data)[i][0] != '1' || (ptr_map.data)[i][ptr_map.width - 1] != '1')
 		{
 			write(1, MSG_ERROR_MAP_LIMITS, 66);
 			return (0);
