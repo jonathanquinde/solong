@@ -23,7 +23,7 @@
 #define MSG_ERROR_N_COLECC "Error\nNumero invalido de coleccionables. Minimo un caracter C\n"
 #define MSG_ERROR_N_EXITS "Error\nNumero invalido de salidas. Un unico caracter: E\n"
 #define MSG_ERROR_N_SPAWNS "Error\nNumero invalido de spawns. Un unico caracter: P\n"
-#define MSG_ERROR_MAP_FORM "Error\nForma del mapa invalido. Requiere un mapa rectangular de minimo 3 lineas\n"
+#define MSG_ERROR_MAP_FORM "Error\nForma del mapa invalido. Requiere un mapa rectangular de minimo 4 lineas\n"
 #define MSG_ERROR_MAP_LIMITS "Error\nMapa no cerrado. Requiere un mapa rodeados de caracteres 1\n"
 #define MSG_ERROR_N_PARAMS "Error\nNumero de parametros erroneo. Iniserte un solo archivo <nombre>.ber\n"
 #define MSG_ERROR_PATH "Error\nEl mapa contiene una salida o collecionables no alcanzables\n"
@@ -60,4 +60,4 @@ t_bool	is_spawn_valid(t_map *map);
 void	initialize_tiles(t_element_count *tiles);
 void	traverse_matrix(t_matrx map, t_tile *spawn, char **visited);
 
-int		bfs(t_map *map, char **visited, t_tile *spawn);
+int		bfs(t_map *map, char **visited, t_queue *queue);

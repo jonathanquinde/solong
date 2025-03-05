@@ -28,7 +28,7 @@ t_matrx matrix_new(size_t height, size_t width)
 		t.data[i] = malloc(sizeof(char) * width);
 		if (t.data[i] == NULL)
 		{
-			arr_arr_free(t.data, i);
+			arr_arr_free((void ***)&t.data, i);
 			return (t);
 		}
 		i++;

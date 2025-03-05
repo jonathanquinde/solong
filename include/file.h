@@ -16,7 +16,7 @@
 #ifndef FILE_H
 # define FILE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 10
 # endif
 void	ft_raw_rreadtext(int fd, t_list **head);
 char    *ft_readtext(int fd);

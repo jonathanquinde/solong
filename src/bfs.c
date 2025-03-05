@@ -13,24 +13,23 @@
 #include "header.h"
 
 void	update_bfs(char **visited, t_tile *search_tile, t_queue *queue);
-void	peek_tile(size_t *collected, char *found_exit, char ch);
+void	peek_tile(size_t *collected, t_bool *found_exit, char ch);
 void	expand(t_tile **search_tiles, t_tile *search_tile);
-void	initialize_collec_foundext(size_t *collec, char *found_exit);
+void	initialize_collec_foundext(size_t *collec, t_bool *found_exit);
 
-int	bfs(t_map *map, char **visited, t_tile *spawn)
+int	bfs(t_map *map, char **visited, t_queue *queue)
 {
-	t_queue	queue;
 	t_tile	*search_tiles[4];
 	size_t	collected;
-	char	found_exit;
+	t_bool  found_exit;
 	size_t	i;
 
 	initialize_collec_foundext(&collected, &found_exit);
-	queue = queue_new();
-	queue_put(&queue, spawn);
-	while (!queue_empty(queue))
+	while (!queue_empty(*queue))
 	{
-		expand(search_tiles, queue_get(&queue));
+		expand(search_tiles, queue_get(queue));
+		if (search_tiles == NULL)
+			return (false);
 		i = 0;
 		while (i < 4)
 		{
@@ -38,8 +37,8 @@ int	bfs(t_map *map, char **visited, t_tile *spawn)
 				free(search_tiles[i]);
 			else
 			{
-				update_bfs(visited, search_tiles[i], &queue);
 				peek_tile(&collected, &found_exit, map->matrix.data[search_tiles[i]->i][search_tiles[i]->j]);
+				update_bfs(visited, search_tiles[i], queue);
 			}	
 			i++;
 		}
@@ -53,20 +52,30 @@ void	update_bfs(char **visited, t_tile *search_tile, t_queue *queue)
 	queue_put(queue, search_tile);
 }
 
-void	peek_tile(size_t *collected, char *found_exit, char ch)
+void	peek_tile(size_t *collected, t_bool *found_exit, char ch)
 {
 	if (ch == 'E')
-		*found_exit = 1;
+		*found_exit = true;
 	else if(ch == 'C')
 		(*collected)++;
 }
 
 void	expand(t_tile **search_tiles, t_tile *search_tile)
 {
+	search_tiles[0] = NULL;  
+	search_tiles[1] = NULL; 
+	search_tiles[2] = NULL; 
+	search_tiles[3] = NULL; 
 	search_tiles[0] = malloc(sizeof(t_tile));
 	search_tiles[1] = malloc(sizeof(t_tile));
 	search_tiles[2] = malloc(sizeof(t_tile));
 	search_tiles[3] = malloc(sizeof(t_tile));
+	if (search_tiles[0] == NULL || search_tiles[1] == NULL || search_tiles[2] == NULL || search_tiles[3] == NULL)
+	{
+		free (search_tile);
+		arr_arr_free((void ***) &search_tiles, 4);
+		return ;
+	}
 	search_tiles[0]->i = search_tile->i - 1;
 	search_tiles[0]->j = search_tile->j;
 	search_tiles[1]->i = search_tile->i;
@@ -78,8 +87,8 @@ void	expand(t_tile **search_tiles, t_tile *search_tile)
 	free (search_tile);
 }
 
-void	initialize_collec_foundext(size_t *collec, char *found_exit)
+void	initialize_collec_foundext(size_t *collec, t_bool *found_exit)
 {
 	*collec = 0;
-	*found_exit = 0;
+	*found_exit = false;
 }

@@ -21,7 +21,7 @@ int	main(int argc, char *argv[])
 	if (fd == -1)
 		return (0);
 	map = get_map(fd);
-	//matrix_print(map.matrix);
-	arr_arr_free(map.matrix.data, map.matrix.height);
+	matrix_print(map.matrix);
+	arr_arr_free((void ***)&map.matrix.data, map.matrix.height);
 	return (0);
 }

@@ -36,6 +36,7 @@ void	traverse_matrix(t_matrx matrix, t_tile *spawn, char **visited)
 			{
 				spawn->i = i;
 				spawn->j = j;
+				visited[i][j] = 1;
 			}
 			if (matrix.data[i][j] == '1')
 				visited[i][j] = 1;

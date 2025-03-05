@@ -18,18 +18,24 @@ t_bool  is_spawn_valid(t_map *map)
 	t_bool	flag;
 	t_tile	*spawn;
 	t_matrx	visited;
+    t_queue queue;
 
 	visited = matrix_new(map->matrix.height, map->matrix.width);
 	if (visited.data == NULL)
 		return (false);
 	spawn = malloc(sizeof(t_tile));
 	if (spawn == NULL)
+    {
+	    arr_arr_free((void ***)&visited.data, visited.height);
 		return (false);
+    }
 	traverse_matrix(map->matrix, spawn, visited.data);
-	visited.data[spawn->i][spawn->j] = 1;
-	flag = bfs(map, visited.data, spawn);
+	queue = queue_new();
+	queue_put(&queue, spawn);
+	flag = bfs(map, visited.data, &queue);
 	if (flag == false)
 		write(1, MSG_ERROR_PATH, 67);
-	arr_arr_free(visited.data, visited.height);
+    queue_free(&queue);
+	arr_arr_free((void ***)&visited.data, visited.height);
 	return (flag);
 }

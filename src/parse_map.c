@@ -43,7 +43,7 @@ t_map	get_map(int fd)
 	ft_lstclear(&lines, free);
 	if (!are_borders_valid(map.matrix) || !is_spawn_valid(&map))
 	{
-		arr_arr_free(map.matrix.data, map.matrix.height);
+		arr_arr_free((void ***)&map.matrix.data, map.matrix.height);
 		exit (EXIT_FAILURE);
 	}
 	return (map);
@@ -76,12 +76,12 @@ void	validate_lines(t_list *lst, t_map *map)
 
 void    validate_minlines(t_list *lst)
 {
-	if (lst->next == NULL || lst->next->next == NULL)
-	{
-		write(1, MSG_ERROR_MAP_FORM, 80);
-		ft_lstclear(&lst, free);
-		exit(EXIT_FAILURE);
-	}
+    if (lst->next == NULL || lst->next->next == NULL || lst->next->next->next == NULL)
+    {
+        write(1, MSG_ERROR_MAP_FORM, 80);
+        ft_lstclear(&lst, free);
+        exit(EXIT_FAILURE);
+    }
 }
 
 void	lst_to_matrix(t_list *node, char **row)
