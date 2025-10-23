@@ -28,7 +28,7 @@ int	bfs(t_map *map, char **visited, t_queue *queue)
 	while (!queue_empty(*queue))
 	{
 		expand(search_tiles, queue_get(queue));
-		if (search_tiles == NULL)
+		if (search_tiles[0] == NULL)
 			return (false);
 		i = 0;
 		while (i < 4)

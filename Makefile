@@ -1,6 +1,6 @@
 NAME = solong
-CC = cc
-FLAGS = -Wall -Werror -Wextra
+CC = gcc
+FLAGS = -Wall -Werror -Wextra -I include -fsanitize=address
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -15,7 +15,7 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 %.o: %.c $(HEADERS)
-	$(CC) $(FLAGS) -I include -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)

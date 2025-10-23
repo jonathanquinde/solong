@@ -28,7 +28,7 @@ t_map	get_map(int fd)
 	t_list  *lines;
 
 	map.matrix.data = NULL;
-    lines = ft_rreadlines(fd);
+	lines = ft_rreadlines(fd);
 	if (lines == NULL)
 		exit (EXIT_FAILURE);
 	map.matrix.width = ft_strlen(lines->content);

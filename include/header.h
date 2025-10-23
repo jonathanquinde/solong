@@ -51,13 +51,13 @@ typedef struct s_tile
 
 t_map	get_map(int fd);
 
-int		is_line_valid(char *current, size_t width, t_element_count *tiles);
-int		are_params_valid(int argc, char *map_source);
-int		are_tiles_valid(t_element_count tiles);
-int		are_borders_valid(t_matrx ptr_map);
-t_bool	is_spawn_valid(t_map *map);
+int	is_line_valid(char *current, size_t width, t_element_count *tiles);
+int	are_params_valid(int argc, char *map_source);
+int	are_tiles_valid(t_element_count tiles);
+int	are_borders_valid(t_matrx ptr_map);
+int	is_spawn_valid(t_map *map);
 
 void	initialize_tiles(t_element_count *tiles);
 void	traverse_matrix(t_matrx map, t_tile *spawn, char **visited);
 
-int		bfs(t_map *map, char **visited, t_queue *queue);
+int	bfs(t_map *map, char **visited, t_queue *queue);
