@@ -12,7 +12,6 @@
 
 #include "header.h"
 
-t_list	*read_lines(int fd);
 void	validate_lines(t_list *lst, t_map *map);
 void    validate_minlines(t_list *lst);
 void	lst_to_matrix(t_list *node, char **row);

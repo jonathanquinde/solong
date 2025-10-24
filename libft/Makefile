@@ -24,7 +24,7 @@ OBJ = $(SRC:.c=.o)
 OBJ_ADT = $(SRC_ADT:.c=.o)
 OBJ_FILE = $(SRC_FILE:.c=.o)
 
-CC = cc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror 
 
 all: $(NAME)

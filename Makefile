@@ -1,5 +1,5 @@
 NAME = solong
-CC = gcc
+CC = clang
 FLAGS = -Wall -Werror -Wextra -I include -fsanitize=address
 
 LIBFT_DIR = libft

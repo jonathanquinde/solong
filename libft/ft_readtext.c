@@ -15,6 +15,7 @@
 void	ft_rlist_to_str(t_list *node, char *buffer);
 char	*assert_emptytext(t_list *empty_text);
 
+//Hola
 char    *ft_readtext(int fd)
 {
 	t_list  *raw_text;
@@ -34,7 +35,7 @@ char    *ft_readtext(int fd)
 	if (buffer == NULL)
 	{
 		ft_lstclear(&raw_text, free);
-        write(1, "Error\nAlocacion de memoria fallida\n", 36);
+		write(1, "Error\nAlocacion de memoria fallida\n", 36);
 		return (NULL);
 	}
 	buffer[(size_lst - 1) * BUFFER_SIZE + size_lastread] = '\0';

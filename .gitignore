@@ -3,4 +3,5 @@
 *.a
 solong
 /.vscode
-.clangd
+/.cache
+compile_commands.json

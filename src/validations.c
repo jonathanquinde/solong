@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "header.h"
+#include <stdlib.h>
 
 int	is_char_valid(unsigned char buffer, t_element_count *tiles)
 {
@@ -76,23 +77,26 @@ int	are_tiles_valid(t_element_count tiles)
 	return (1);
 }
 
-int	are_params_valid(int argc, char *map_source)
+int	assert_params(int argc, char *map_source)
 {
 	int	fd;
 
 	if (argc != 2)
 	{
 		write(1, MSG_ERROR_N_PARAMS, 73);
-		return (-1);
+		exit(EXIT_FAILURE);
 	}
 	if (!ft_strendswith(map_source, ".ber"))
 	{
 		write(1, MSG_ERROR_FILE_TYPE, 64);
-		return (-1);
+		exit(EXIT_FAILURE);
 	}
 	fd = open(map_source, O_RDONLY);
 	if (fd == -1)
+	{
 		write(1, MSG_ERROR_FILE_NAME, 77);
+		exit(EXIT_FAILURE);
+	}
 	return (fd);
 }
 

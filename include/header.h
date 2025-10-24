@@ -52,7 +52,7 @@ typedef struct s_tile
 t_map	get_map(int fd);
 
 int	is_line_valid(char *current, size_t width, t_element_count *tiles);
-int	are_params_valid(int argc, char *map_source);
+int	assert_params(int argc, char *map_source);
 int	are_tiles_valid(t_element_count tiles);
 int	are_borders_valid(t_matrx ptr_map);
 int	is_spawn_valid(t_map *map);

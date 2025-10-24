@@ -14,12 +14,10 @@
 
 int	main(int argc, char *argv[])
 {
-	int	    fd;
-	t_map   map;
+	int	fd;
+	t_map	map;
 
-	fd = are_params_valid(argc, argv[1]);
-	if (fd == -1)
-		return (0);
+	fd = assert_params(argc, argv[1]);
 	map = get_map(fd);
 	matrix_print(map.matrix);
 	arr_arr_free((void ***)&map.matrix.data, map.matrix.height);
