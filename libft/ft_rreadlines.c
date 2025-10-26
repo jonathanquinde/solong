@@ -10,37 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "file.h"
-#include <stdio.h>
+#include "libft.h"
 
-void    text_to_lines(t_list **lines, char *text);
-
-t_list  *ft_rreadlines(int fd)
+int    text_to_lines(t_list **lines, char *text)
 {
-	t_list	*lines;
-	char	*text;
-
-	text = ft_readtext(fd);
-	if (text == NULL)
-		return (NULL);
-	if (*text == '\0')
-	{
-		lines = ft_lstnew(text);
-		if (lines == NULL)
-			write(1, "Error\nAlocacion de memoria fallida\n", 36);
-		return (lines);
-	}
-	lines = NULL;
-	text_to_lines(&lines, text);
-	free (text);
-	return (lines);
-}
-
-void    text_to_lines(t_list **lines, char *text)
-{
-	char    *start;
-	char    *end;
-	t_list  *node;
+	char	*start;
+	char	*end;
+	t_list	*node;
 
 	start = text;
 	while (*start != '\0')
@@ -49,15 +25,32 @@ void    text_to_lines(t_list **lines, char *text)
 		while (*end != '\n' && *end != '\0')
 			end++;
 		node = ft_lstnew(malloc(end - start + 1));
-		if (node == NULL)
+		if (node == NULL || node->content == NULL)
 		{
-			write(1, "Error\nAlocacion de memoria fallida\n", 36);
+			ft_lstdelone(node, free);
 			ft_lstclear(lines, free);
-			return ;
+			return (READ_FAIL_MALLOC);
 		}
 		ft_memcpy(node->content, start, end - start);
 		((char *) node->content)[end - start] = '\0';
 		ft_lstadd_front(lines, node);
 		start = end + (*end == '\n');
 	}
+	return (READ_SUCCESS);
 }
+
+int	ft_rreadlines(int fd, t_list **head)
+{
+	char    *text;
+	int		read_status;
+
+	text = NULL;
+	read_status = ft_readtext(fd, &text);
+	if (read_status != READ_SUCCESS)
+		return (read_status);
+	*head = NULL;
+	read_status = text_to_lines(head, text);
+	free (text);
+	return (READ_SUCCESS);
+}
+

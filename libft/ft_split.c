@@ -12,83 +12,90 @@
 
 #include "libft.h"
 
-static void		free_arr_of_str(char **arr, size_t i);
-static size_t	count_words(char const *s, char c);
-static size_t	str_to_arr(char **arr_element, char **s, char c);
+int	count_words(const char *str, char sep)
+{
+	int	i;
 
-char	**ft_split(char *s, const char c)
+	i = 0;
+	while (*str)
+	{
+		while (*str == sep)
+			str++;
+		if (!*str)
+			return (i);
+		while (*str && *str != sep)
+			str++;
+		i++;
+	}
+	return (i);
+}
+
+void	ft_arrstrclear(char ***ptr_arr, size_t size)
 {
 	char	**arr;
 	size_t	i;
-	size_t	n_words;
-	size_t	len;
 
-	if (s == NULL)
-		return (NULL);
-	n_words = count_words(s, c);
-	arr = malloc((n_words + 1) * sizeof(char *));
-	if (arr == NULL)
-		return (NULL);
+	arr = *ptr_arr;
 	i = 0;
-	while (i < n_words)
+	while (i < size)
 	{
-		len = str_to_arr(&arr[i], &s, c);
-		if (len == 0)
-		{
-			free_arr_of_str(arr, i);
-			return (NULL);
-		}
-		s += len;
+		free (arr[i]);
 		i++;
 	}
-	arr[i] = NULL;
-	return (arr);
+	free (arr);
+	*ptr_arr = NULL;
 }
 
-static void	free_arr_of_str(char **arr, size_t i)
+char	*allocate_copy_word(const char **ptr_str, char sep)
 {
-	size_t	index;
+	int			i;
+	int			j;
+	char		*word;
+	const char	*str;
 
-	index = 0;
-	while (index < i)
-	{
-		free(arr[index]);
-		index++;
-	}
-	free(arr);
-}
-
-static size_t	str_to_arr(char **arr_element, char **s, char c)
-{
-	const char	*end_word;
-	char		*buffer;
-	size_t		len;
-
-	while (**s == c)
-		(*s)++;
-	end_word = *s;
-	while (*end_word != c && *end_word)
-		end_word++;
-	len = end_word - *s;
-	buffer = malloc(len + 1);
-	if (buffer == NULL)
+	str = *ptr_str;
+	while (*str == sep)
+		str++;
+	j = 0;
+	while (str[j] && str[j] != sep)
+		j++;
+	word = malloc(j + 1);
+	if (word == NULL)
 		return (0);
-	buffer = ft_memcpy(buffer, *s, len);
-	buffer[len] = 0;
-	*arr_element = buffer;
-	return (len);
+	i = 0;
+	while (str[i] && str[i] != sep)
+	{
+		word[i] = str[i];
+		i++;
+	}
+	word[i] = '\0';
+	*ptr_str = str + i;
+	return (word);
 }
 
-static size_t	count_words(char const *s, char c)
+char	**ft_split(const char *str, char sep)
 {
-	size_t	count;
+	int		num_words;
+	int		i;
+	char	*new_word;
+	char	**arr_str;
 
-	count = 0;
-	while (*s)
+	num_words = count_words(str, sep);
+	arr_str = malloc(sizeof(char *) * (num_words + 1));
+	if (arr_str == NULL)
+		return (NULL);
+	i = 0;
+	while (i < num_words)
 	{
-		if (*s != c && (s[1] == c || !s[1]))
-			count++;
-		s++;
+		new_word = allocate_copy_word(&str, sep);
+		if (new_word == NULL)
+		{
+			ft_arrstrclear(&arr_str, i);
+			return (NULL);
+		}
+		arr_str[i] = new_word;
+		i++;
 	}
-	return (count);
+	arr_str[i] = NULL;
+	return (arr_str);
 }

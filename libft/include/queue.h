@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrarrfree.c                                    :+:      :+:    :+:   */
+/*   queue.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 13:26:00 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/25 13:26:00 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/02/22 17:14:26 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/02/22 17:14:26 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	arr_arr_free(void **arr, size_t size)
+#ifndef QUEUE_H
+# define QUEUE_H
+typedef struct s_queue
 {
-	size_t	i;
+	t_list *head;
+	t_list *tail;
+}				t_queue;
 
-	i = 0;
-	while (i < size)
-	{
-		free((*arr)[i]);
-		i++;
-	}
-	free(*arr);
-    *arr = NULL;
-}
+
+t_queue queue_new (void);
+int queue_empty (t_queue queue);
+void queue_put (t_queue *queue, void *x);
+void *queue_get (t_queue *stk);
+void queue_free (t_queue *queue);
+
+#endif

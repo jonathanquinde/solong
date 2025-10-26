@@ -12,51 +12,50 @@
 
 #include "libft.h"
 
-char			*itoa(int n);
-static size_t	calculate_digits(int n);
-static void		ft_putnbr(char *buffer, int n);
+#define BASE "0123456789"
 
-char	*ft_itoa(int n)
+int	calculate_length(int num)
 {
-	size_t	flag;
-	size_t	n_digits;
-	char	*buffer;
+	int	i;
 
-	flag = 0;
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	else if (n < 0)
+	i = 1;
+	while (num >= 10 || num <= -10)
 	{
-		flag = 1;
-		n = -n;
+		num /= 10;
+		i++;
 	}
-	n_digits = calculate_digits(n);
-	buffer = malloc(n_digits + flag + 1);
-	if (buffer == NULL)
+	return (i);
+}
+
+void	recursion(int num, char *str)
+{
+	char	ch;
+	int		n;
+
+	if (num >= 10 || num <= -10)
+		recursion(num / 10, str - 1);
+	n = num % 10;
+	if (n < 0)
+		n *= -1;
+	ch = BASE[n];
+	*str = ch;
+}
+
+char	*ft_itoa(int num)
+{
+	int		len_str;
+	char	*str;
+
+	len_str = calculate_length(num);
+	str = malloc((num < 0) + len_str + 1);
+	if (str == NULL)
 		return (NULL);
-	if (flag)
-		*buffer++ = '-';
-	ft_putnbr(buffer + (n_digits - 1), n);
-	buffer[n_digits] = 0;
-	return (buffer - flag);
-}
-
-static void	ft_putnbr(char *buffer, int n)
-{
-	if (n > 9)
-		ft_putnbr(buffer - 1, n / 10);
-	*buffer = (n % 10) + '0';
-}
-
-static size_t	calculate_digits(int n)
-{
-	size_t	n_digits;
-
-	n_digits = 1;
-	while (n > 9)
+	if (num < 0)
 	{
-		n_digits++;
-		n /= 10;
+		str[0] = '-';
+		str++;
 	}
-	return (n_digits);
+	str[len_str] = 0;
+	recursion(num, str + (len_str - 1));
+	return (str - (num < 0));
 }

@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrarrfree.c                                    :+:      :+:    :+:   */
+/*   ft_strlenuntil.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jquinde- <jquinde-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 13:26:00 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/25 13:26:00 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/10/25 09:47:26 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/10/25 10:05:51 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	arr_arr_free(void **arr, size_t size)
+ssize_t	ft_strlenuntil(char *str, int ch)
 {
-	size_t	i;
+	size_t	len;
 
-	i = 0;
-	while (i < size)
+	len = 0;
+	while (str[len])
 	{
-		free((*arr)[i]);
-		i++;
+		if (str[len] == (unsigned char) ch)
+			return (len);
+		len++;
 	}
-	free(*arr);
-    *arr = NULL;
+	return (-1);
 }

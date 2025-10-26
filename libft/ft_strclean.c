@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrarrfree.c                                    :+:      :+:    :+:   */
+/*   ft_strclean.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jquinde- <jquinde-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 13:26:00 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/25 13:26:00 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/10/25 10:20:54 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/10/25 10:21:27 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	arr_arr_free(void **arr, size_t size)
+void	ft_strclean(char **str)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < size)
-	{
-		free((*arr)[i]);
-		i++;
-	}
-	free(*arr);
-    *arr = NULL;
+	free(*str);
+	*str = NULL;
 }

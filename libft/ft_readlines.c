@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrarrfree.c                                    :+:      :+:    :+:   */
+/*   ft_readlines.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jquinde- <jquinde-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 13:26:00 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/25 13:26:00 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/10/26 19:24:07 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/10/26 19:26:06 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	arr_arr_free(void **arr, size_t size)
+int	ft_readlines(int fd, t_list **head)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < size)
-	{
-		free((*arr)[i]);
-		i++;
-	}
-	free(*arr);
-    *arr = NULL;
+	int	status_code;
+	
+	status_code = ft_rreadlines(fd, head);
+	if (status_code != READ_SUCCESS)
+		return (status_code);
+	ft_lstreverse(head);
+	return (READ_SUCCESS);
 }

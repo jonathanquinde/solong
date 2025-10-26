@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrarrfree.c                                    :+:      :+:    :+:   */
+/*   ft_strcontains_ch.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jquinde- <jquinde-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 13:26:00 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/25 13:26:00 by jquinde-         ###   ########.fr       */
+/*   Created: 2025/10/25 10:04:42 by jquinde-          #+#    #+#             */
+/*   Updated: 2025/10/25 10:05:37 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	arr_arr_free(void **arr, size_t size)
+int ft_strcontains_ch(char	*str, int ch)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < size)
+	while (*str)
 	{
-		free((*arr)[i]);
-		i++;
+		if (*str == (unsigned char) ch)
+			return (1);
+		str++;
 	}
-	free(*arr);
-    *arr = NULL;
+	return (0);
 }

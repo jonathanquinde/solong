@@ -12,7 +12,6 @@
 
 #include "libft.h"
 
-//Same behaviour as ft_lstnew but in case of error at allocating memory for the node it frees the content
 t_list	*ft_lstnew_s(void *content)
 {
 	t_list	*new_node;
