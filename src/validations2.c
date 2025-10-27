@@ -14,27 +14,27 @@
 
 int	is_spawn_valid(t_map *map)
 {
-	t_bool	flag;
+	int		flag;
 	t_tile	*spawn;
 	t_matrx	visited;
 	t_queue queue;
 
 	visited = matrix_new(map->matrix.height, map->matrix.width);
 	if (visited.data == NULL)
-		return (false);
+		return (0);
 	spawn = malloc(sizeof(t_tile));
 	if (spawn == NULL)
 	{
-		arr_arr_free((void ***)&visited.data, visited.height);
-		return (false);
+		matrix_clean(&visited);
+		return (0);
 	}
 	traverse_matrix(map->matrix, spawn, visited.data);
 	queue = queue_new();
 	queue_put(&queue, spawn);
 	flag = bfs(map, visited.data, &queue);
-	if (flag == false)
+	if (flag == 0)
 		write(1, MSG_ERROR_PATH, 67);
 	queue_free(&queue);
-	arr_arr_free((void ***)&visited.data, visited.height);
+	matrix_clean(&visited);
 	return (flag);
 }

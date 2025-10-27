@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "queue.h"
 #include "libft.h"
-#include "file.h"
-#include <fcntl.h>
 
 #define MSG_ERROR_MALLOC_FAIL "Error\nFallo al intentar alocar memoria"
 #define MSG_ERROR_FILE_TYPE "Error\nTipo de archivo invalido. Inserte un archivo de tipo .ber\n"
@@ -57,7 +54,8 @@ int	are_tiles_valid(t_element_count tiles);
 int	are_borders_valid(t_matrx ptr_map);
 int	is_spawn_valid(t_map *map);
 
-void	initialize_tiles(t_element_count *tiles);
+void	init_tiles(t_element_count *tiles);
 void	traverse_matrix(t_matrx map, t_tile *spawn, char **visited);
+void	lst_to_matrix(t_list *node, char **row);
 
 int	bfs(t_map *map, char **visited, t_queue *queue);

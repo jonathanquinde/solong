@@ -6,7 +6,7 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:37:50 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/10/25 10:23:57 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/10/27 12:06:34 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,13 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include <stdio.h>
+# include <stdio.h>
 # include <stdlib.h> 
 # include <unistd.h>
 # include <fcntl.h>
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
+/***  General  ***/
 
-typedef struct s_matrx
-{
-	char	**data;
-	size_t	width;
-	size_t	height;
-}			t_matrx;
-
-/* General */
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -42,7 +30,9 @@ int		ft_toupper(int c);
 int		ft_tolower(int c);
 int		ft_atoi(const char *ntpr);
 
-/*  Strings */
+
+/***  Strings  ***/
+
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
@@ -67,7 +57,9 @@ char	*ft_strncpy(char *dst, char *src, size_t len);
 void	ft_strappend(char **str, char *value);
 void	ft_strclean(char **str);
 
+
 /* Memory */
+
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -76,6 +68,28 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_arrstrclean(char ***arr_str, size_t len);
+
+
+/***  Lists  ***/
+
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+int		ft_lstsize(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstdelone(t_list *lst, void (*del)(void*));
+void	ft_lstclear(t_list **lst, void (*del)(void*));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+///Same behaviour as ft_lstnew. In case of node allocation fail frees content
+t_list	*ft_lstnew_s(void *content);
+void    ft_lstreverse(t_list **lst);
 
 
 /***   I/O   ***/
@@ -107,22 +121,34 @@ int		ft_rreadlines(int fd, t_list **head);
  */
 int		ft_readlines(int fd, t_list **head);
 
-/* Lists */
-t_list	*ft_lstnew(void *content);
-void	ft_lstadd_front(t_list **lst, t_list *new);
-int		ft_lstsize(t_list *lst);
-t_list	*ft_lstlast(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstdelone(t_list *lst, void (*del)(void*));
-void	ft_lstclear(t_list **lst, void (*del)(void*));
-void	ft_lstiter(t_list *lst, void (*f)(void *));
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-///Same behaviour as ft_lstnew. In case of node allocation fail frees content
-t_list	*ft_lstnew_s(void *content);
-void    ft_lstreverse(t_list **lst);
 
-/* Matrix */
-void    matrix_print(t_matrx matrix);
+/*  Matrix  */
+
+typedef struct s_matrx
+{
+	char	**data;
+	size_t	width;
+	size_t	height;
+}			t_matrx;
+
 t_matrx matrix_new(size_t height, size_t width);
+void    matrix_print(t_matrx matrix);
+void	matrix_clean(t_matrx *matrix);
+
+
+/***  Queue  ***/
+
+typedef struct s_queue
+{
+	t_list *head;
+	t_list *tail;
+}				t_queue;
+
+
+t_queue queue_new (void);
+int queue_empty (t_queue queue);
+void queue_put (t_queue *queue, void *x);
+void *queue_get (t_queue *stk);
+void queue_free (t_queue *queue);
 
 #endif

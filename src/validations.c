@@ -11,42 +11,46 @@
 /* ************************************************************************** */
 
 #include "header.h"
-#include <stdlib.h>
 
 int	is_char_valid(unsigned char buffer, t_element_count *tiles)
 {
 	if (buffer == '0')
 		return (1);
-	if (buffer == '1')
+	else if (buffer == '1')
 		return (1);
-	if (buffer == 'C')
+	else if (buffer == 'C')
 	{
 		(tiles->n_collect)++;
 		return (1);
 	}
-	if (buffer == 'E')
+	else if (buffer == 'E')
 	{
 		(tiles->n_exits)++;
 		return (1);
 	}
-	if (buffer == 'P')
+	else if (buffer == 'P')
 	{
 		(tiles->n_spawns)++;
 		return (1);
 	}
-	write(1, MSG_ERROR_INVALID_CH, 72);
-	return (0);
+	else
+	{
+		return (0);
+	}
 }
 
-int	is_line_valid(char *current, size_t width, t_element_count *tiles)
+int	is_line_valid(char *line, size_t width, t_element_count *tiles)
 {
 	size_t	len;
 
 	len = 0;
-	while (current[len] != '\n' && current[len] != '\0')
+	while (line[len] != '\n' && line[len] != '\0')
 	{
-		if (!is_char_valid(current[len], tiles))
+		if (!is_char_valid(line[len], tiles))
+		{
+			write(1, MSG_ERROR_INVALID_CH, 72);
 			return (0);
+		}
 		len++;
 	}
 	if (len != width)
@@ -55,49 +59,6 @@ int	is_line_valid(char *current, size_t width, t_element_count *tiles)
 		return (0);
 	}
 	return (1);
-}
-
-int	are_tiles_valid(t_element_count tiles)
-{
-	if (tiles.n_exits != 1)
-	{
-		write(1, MSG_ERROR_N_EXITS, 56);
-		return (0);
-	}
-	if (tiles.n_spawns != 1)
-	{
-		write(1, MSG_ERROR_N_SPAWNS, 55);
-		return (0);
-	}
-	if (tiles.n_collect < 1)
-	{
-		write(1, MSG_ERROR_N_COLECC, 63);
-		return (0);
-	}
-	return (1);
-}
-
-int	assert_params(int argc, char *map_source)
-{
-	int	fd;
-
-	if (argc != 2)
-	{
-		write(1, MSG_ERROR_N_PARAMS, 73);
-		exit(EXIT_FAILURE);
-	}
-	if (!ft_strendswith(map_source, ".ber"))
-	{
-		write(1, MSG_ERROR_FILE_TYPE, 64);
-		exit(EXIT_FAILURE);
-	}
-	fd = open(map_source, O_RDONLY);
-	if (fd == -1)
-	{
-		write(1, MSG_ERROR_FILE_NAME, 77);
-		exit(EXIT_FAILURE);
-	}
-	return (fd);
 }
 
 int	are_borders_valid(t_matrx ptr_map)

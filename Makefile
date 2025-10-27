@@ -1,32 +1,32 @@
 NAME = solong
-CC = clang
-FLAGS = -Wall -Werror -Wextra -I include -fsanitize=address
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibft/include
+LIBFT = libft/libft.a
 
-LIBFT_DIR = libft
-LIBFT = $(LIBFT_DIR)/libft.a
-
-HEADERS = include/header.h include/libft.h include/file.h include/queue.h
 SRC = src/solong.c src/parse_map.c src/validations.c src/utils.c src/validations2.c src/bfs.c
-OBJS = $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
+HEADERS = include/header.h
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
-%.o: %.c $(HEADERS)
-	$(CC) $(FLAGS) -c $< -o $@
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $@
+	@echo "✅ Built $(NAME)"
 
 $(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C libft
+
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	rm -f $(OBJS)
+	@rm -f $(OBJ)
+	@$(MAKE) -C libft clean
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@$(MAKE) -C libft fclean
 
 re: fclean all
 
