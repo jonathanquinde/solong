@@ -1,0 +1,3 @@
+[submodule "libfts"]
+	path = libfts
+	url = git@github.com:jonathanquinde/libft-plus.git
