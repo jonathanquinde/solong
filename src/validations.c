@@ -12,12 +12,12 @@
 
 #include "header.h"
 
-int	is_char_valid(unsigned char buffer, t_element_count *tiles)
+bool	is_char_valid(unsigned char buffer, t_element_count *tiles)
 {
 	if (buffer == '0')
-		return (1);
+		return (true);
 	else if (buffer == '1')
-		return (1);
+		return (true);
 	else if (buffer == 'C')
 	{
 		(tiles->n_collect)++;
