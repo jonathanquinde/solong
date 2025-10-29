@@ -1,8 +1,0 @@
-*.o
-*.a
-/.vscode
-*.out
-*.txt
-main.c
-compile_commands.json
-.cache/

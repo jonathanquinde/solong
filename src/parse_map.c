@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "header.h"
+#include "libft.h"
+#include <unistd.h>
 
 	//Solo 5 caracteres: 0 1 C(>0) E(1) P(1)
 	//Debe ser rectangular
@@ -25,24 +27,6 @@ void	assert_minlines(t_list *lst)
         ft_lstclear(&lst, free);
         exit(EXIT_FAILURE);
     }
-}
-
-int	check_len_count_tiles(t_list *lines, t_element_count *tiles)
-{
-	t_list	*line;
-	size_t	len;
-
-	line = lines;
-	len = ft_strlen(lines->content);
-	while (line != NULL)
-	{
-		if (!is_line_valid(line->content, len, tiles))
-		{
-			return (0);
-		}
-		line = line->next;
-	}
-	return (1);
 }
 
 int	are_tiles_valid(t_element_count tiles)
@@ -65,23 +49,40 @@ int	are_tiles_valid(t_element_count tiles)
 	return (1);
 }
 
-void	assert_lines(t_list *lines, size_t *num_collects)
+bool	are_lines_valid(t_list *lines)
 {
+	t_list			*line;
 	t_element_count	tiles;
+	size_t			len;
 
-	assert_minlines(lines);
 	init_tiles(&tiles);
-	if (!check_len_count_tiles(lines, &tiles))
+	line = lines;
+	len = ft_strlen(lines->content);
+	while (line != NULL)
+	{
+		if (len != ft_strlen(line->content))
+		{
+			write(2, MSG_ERROR_MAP_FORM, 50);
+			return (false);
+		}
+		line = line->next;
+	}
+	if (are_tiles_valid(tiles) == false)
+	{
+		ft_lstclear(&lines, free);
+		return (false);
+	}
+	return (true);
+}
+
+void	assert_lines(t_list *lines)
+{
+	assert_minlines(lines);
+	if (are_lines_valid(lines) == false)
 	{
 		ft_lstclear(&lines, free);
 		exit (EXIT_FAILURE);
 	}
-	if (!are_tiles_valid(tiles))
-	{
-		ft_lstclear(&lines, free);
-		exit (EXIT_FAILURE);
-	}
-	*num_collects = tiles.n_collect;
 }
 
 void	assert_read(int read_status)
@@ -108,13 +109,11 @@ void	assert_read(int read_status)
 
 t_map	get_map(int fd)
 {
-	int		read_status;
 	t_list	*lines;
 	t_map	map;
 
-	read_status = ft_rreadlines(fd, &lines);
-	assert_read(read_status);
-	assert_lines(lines, &map.n_collects);
+	assert_read(ft_rreadlines(fd, &lines));
+	assert_lines(lines);
 	map.matrix = matrix_new(ft_lstsize(lines), ft_strlen(lines->content));
 	if (map.matrix.data == NULL)
 	{
