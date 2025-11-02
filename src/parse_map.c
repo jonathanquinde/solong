@@ -11,77 +11,42 @@
 /* ************************************************************************** */
 
 #include "header.h"
-#include "libft.h"
-#include <unistd.h>
 
-	//Solo 5 caracteres: 0 1 C(>0) E(1) P(1)
-	//Debe ser rectangular
-	//Tiene que estar rodeado de muros
-	//Tiene que haber un camino valido
-
+//Asserts map has a mininum of 3
 void	assert_minlines(t_list *lst)
 {
-    if (lst->next == NULL || lst->next->next == NULL || lst->next->next->next == NULL)
-    {
-        write(1, MSG_ERROR_MAP_FORM, 80);
-        ft_lstclear(&lst, free);
-        exit(EXIT_FAILURE);
-    }
+	if (lst->next == NULL || lst->next->next == NULL)
+	{
+		write(2, MSG_ERROR_MAP_FORM, 80);
+		ft_lstclear(&lst, free);
+		exit(EXIT_FAILURE);
+	}
 }
 
-int	are_tiles_valid(t_element_count tiles)
+//Asserts map is rectangular and contains valid characters
+void	assert_form_chars(t_list *lines)
 {
-	if (tiles.n_exits != 1)
-	{
-		write(1, MSG_ERROR_N_EXITS, 56);
-		return (0);
-	}
-	if (tiles.n_spawns != 1)
-	{
-		write(1, MSG_ERROR_N_SPAWNS, 55);
-		return (0);
-	}
-	if (tiles.n_collect < 1)
-	{
-		write(1, MSG_ERROR_N_COLECC, 63);
-		return (0);
-	}
-	return (1);
-}
+	t_list	*line;
+	size_t	len;
 
-bool	are_lines_valid(t_list *lines)
-{
-	t_list			*line;
-	t_element_count	tiles;
-	size_t			len;
-
-	init_tiles(&tiles);
+	assert_minlines(lines);
 	line = lines;
 	len = ft_strlen(lines->content);
 	while (line != NULL)
 	{
 		if (len != ft_strlen(line->content))
 		{
-			write(2, MSG_ERROR_MAP_FORM, 50);
-			return (false);
+			write(2, MSG_ERROR_MAP_FORM, 80);
+			ft_lstclear(&lines, free);
+			exit (EXIT_FAILURE);
+		}
+		if (ft_strcontainsonly_str(line->content, "01EPC") == false)
+		{
+			write(2, MSG_ERROR_INVALID_CH, 72);
+			ft_lstclear(&lines, free);
+			exit (EXIT_FAILURE);
 		}
 		line = line->next;
-	}
-	if (are_tiles_valid(tiles) == false)
-	{
-		ft_lstclear(&lines, free);
-		return (false);
-	}
-	return (true);
-}
-
-void	assert_lines(t_list *lines)
-{
-	assert_minlines(lines);
-	if (are_lines_valid(lines) == false)
-	{
-		ft_lstclear(&lines, free);
-		exit (EXIT_FAILURE);
 	}
 }
 
@@ -107,26 +72,31 @@ void	assert_read(int read_status)
 	}
 }
 
-t_map	get_map(int fd)
+t_matrx	transform_lst_to_matrix(t_list *lines)
 {
-	t_list	*lines;
-	t_map	map;
+	t_matrx	matrix;
 
-	assert_read(ft_rreadlines(fd, &lines));
-	assert_lines(lines);
-	map.matrix = matrix_new(ft_lstsize(lines), ft_strlen(lines->content));
-	if (map.matrix.data == NULL)
+	matrix = ft_matrixinit(ft_lstsize(lines), ft_strlen(lines->content));
+	if (matrix.data == NULL)
 	{
 		ft_lstclear(&lines, free);
 		write(2, MSG_ERROR_MALLOC_FAIL, 39);
 		exit (EXIT_FAILURE);
 	}
-	lst_to_matrix(lines, &map.matrix.data[map.matrix.height - 1]);
+	lst_to_matrix(lines, &matrix.data[matrix.height - 1]);
 	ft_lstclear(&lines, free);
-	if (!are_borders_valid(map.matrix) || !is_spawn_valid(&map))
-	{
-		matrix_clean(&map.matrix);
-		exit (EXIT_FAILURE);
-	}
-	return (map);
+	return (matrix);
 }
+
+void	assert_map(int fd, t_map *map)
+{
+	t_list	*lines;
+
+	assert_read(ft_rreadlines(fd, &lines));
+	assert_form_chars(lines);
+	map->matrix = transform_lst_to_matrix(lines);
+	assert_mapborders(map->matrix);
+	assert_elemcount_get_spawn_collec(map);
+	assert_validpath(map);
+}
+

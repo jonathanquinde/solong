@@ -20,16 +20,28 @@
 #define MSG_ERROR_N_COLECC "Error\nNumero invalido de coleccionables. Minimo un caracter C\n"
 #define MSG_ERROR_N_EXITS "Error\nNumero invalido de salidas. Un unico caracter: E\n"
 #define MSG_ERROR_N_SPAWNS "Error\nNumero invalido de spawns. Un unico caracter: P\n"
-#define MSG_ERROR_MAP_FORM "Error\nForma del mapa invalido. Requiere un mapa rectangular de minimo 4 lineas\n"
+#define MSG_ERROR_MAP_FORM "Error\nForma del mapa invalido. Requiere un mapa rectangular de minimo 3 lineas\n"
 #define MSG_ERROR_MAP_LIMITS "Error\nMapa no cerrado. Requiere un mapa rodeados de caracteres 1\n"
 #define MSG_ERROR_N_PARAMS "Error\nNumero de parametros erroneo. Iniserte un solo archivo <nombre>.ber\n"
 #define MSG_ERROR_PATH "Error\nEl mapa contiene una salida o collecionables no alcanzables\n"
 #define MSG_ERROR "Error\n\n"
 
+#define TILE_UP(t)     ((t_tile){ (t).i - 1, (t).j })
+#define TILE_RIGHT(t)  ((t_tile){ (t).i, (t).j + 1 })
+#define TILE_DOWN(t)   ((t_tile){ (t).i + 1, (t).j })
+#define TILE_LEFT(t)   ((t_tile){ (t).i, (t).j - 1 })
+
+typedef struct s_tile
+{
+	size_t	i;
+	size_t	j;
+}			t_tile;
+
 typedef struct s_map
 {
 	t_matrx matrix;
 	size_t  n_collects;
+	t_tile	player_pos;
 }			t_map;
 
 typedef struct s_element_count
@@ -39,21 +51,15 @@ typedef struct s_element_count
 	size_t	n_exits;
 }			t_element_count;
 
-typedef struct s_tile
-{
-	size_t	i;
-	size_t	j;
-}			t_tile;
+void	assert_map(int fd, t_map *map);
 
-
-t_map	get_map(int fd);
-
-int	assert_params(int argc, char *map_source);
-int	are_borders_valid(t_matrx ptr_map);
-int	is_spawn_valid(t_map *map);
+void	assert_mapborders(t_matrx ptr_map);
+void	assert_elemcount_get_spawn_collec(t_map *map);
+void	assert_validpath(t_map *map);
 
 void	init_tiles(t_element_count *tiles);
-void	traverse_matrix(t_matrx map, t_tile *spawn, char **visited);
+void	traverse_matrix(t_matrx map, char **visited);
 void	lst_to_matrix(t_list *node, char **row);
+char	matrx_tile(char **matrix, t_tile tile);
 
-int	bfs(t_map *map, char **visited, t_queue *queue);
+int	bfs(char **map, bool **visited, size_t n_collec,t_queue *queue);

@@ -11,19 +11,21 @@
 /* ************************************************************************** */
 
 #include "header.h"
+#include <stdlib.h>
+#include <strings.h>
 
-void	update_bfs(char **visited, t_tile *search_tile, t_queue *queue)
+void	update_bfs(bool **visited, t_tile *search_tile, t_queue *queue)
 {
-	visited[search_tile->i][search_tile->j] = 1;
-	queue_put(queue, search_tile);
+	visited[search_tile->i][search_tile->j] = true;
+	ft_queueput(queue, search_tile);
 }
 
-void	peek_tile(size_t *collected, int *found_exit, char ch)
+void	peek_tile(size_t *collected, bool *found_exit, char ch)
 {
 	if (ch == 'E')
-		*found_exit = 1;
+		*found_exit = true;
 	else if(ch == 'C')
-		(*collected)++;
+		(*collected)--;
 }
 
 void	arrtilesclean(t_tile **arr)
@@ -38,64 +40,45 @@ void	arrtilesclean(t_tile **arr)
 	arr[3] = NULL;
 }
 
-void	expand(t_tile **search_tiles, t_tile *search_tile)
+void	expand(t_tile **search_tiles, t_tile *center, bool **visited)
 {
-	search_tiles[0] = NULL;  
-	search_tiles[1] = NULL; 
-	search_tiles[2] = NULL; 
-	search_tiles[3] = NULL; 
-	search_tiles[0] = malloc(sizeof(t_tile));
-	search_tiles[1] = malloc(sizeof(t_tile));
-	search_tiles[2] = malloc(sizeof(t_tile));
-	search_tiles[3] = malloc(sizeof(t_tile));
-	if (search_tiles[0] == NULL || search_tiles[1] == NULL || search_tiles[2] == NULL || search_tiles[3] == NULL)
+	bzero(search_tiles, sizeof(*search_tiles) * 4);
+	if (matrx_tile((char **)visited, TILE_UP(*center)) == false)
 	{
-		free (search_tile);
-		arrtilesclean(search_tiles);
-		return ;
+		search_tiles[0]	= malloc(sizeof(t_tile));
+		if (search_tiles[0] == NULL)
+		{
+			arrtilesclean(search_tiles);
+			free (center);
+		}	
+		*search_tiles[0] = TILE_UP(*center);
 	}
-	search_tiles[0]->i = search_tile->i - 1;
-	search_tiles[0]->j = search_tile->j;
-	search_tiles[1]->i = search_tile->i;
-	search_tiles[1]->j = search_tile->j + 1;
-	search_tiles[2]->i = search_tile->i + 1;
-	search_tiles[2]->j = search_tile->j;
-	search_tiles[3]->i = search_tile->i;
-	search_tiles[3]->j = search_tile->j - 1;
-	free (search_tile);
 }
 
-void	initialize_collec_foundext(size_t *collec, int *found_exit)
-{
-	*collec = 0;
-	*found_exit = 0;
-}
-
-int	bfs(t_map *map, char **visited, t_queue *queue)
+int	bfs(char **map, bool **visited, size_t n_collec,t_queue *queue)
 {
 	t_tile	*search_tiles[4];
-	size_t	collected;
-	int  found_exit;
+	bool	found_exit;
 	size_t	i;
 
-	initialize_collec_foundext(&collected, &found_exit);
-	while (!queue_empty(*queue))
+	found_exit = false;
+	while (!ft_queueisempty(queue))
 	{
-		expand(search_tiles, queue_get(queue));
+		expand(search_tiles, ft_queueget(queue), visited);
 		if (search_tiles[0] == NULL)
 			return (0);
 		i = 0;
-		while (i < 4)
+		while (i < 4 && search_tiles[i] != NULL)
 		{
-			if (visited[search_tiles[i]->i][search_tiles[i]->j])
+			if (matrx_tile((char **)visited, *search_tiles[i]) == true)
 				free(search_tiles[i]);
 			else
 			{
-				peek_tile(&collected, &found_exit, map->matrix.data[search_tiles[i]->i][search_tiles[i]->j]);
+				peek_tile(&n_collec, &found_exit, matrx_tile(map, *search_tiles[i]));
 				update_bfs(visited, search_tiles[i], queue);
 			}	
 			i++;
 		}
 	}
-	return (collected == map->n_collects && found_exit);	
+	return (n_collec == 0 && found_exit);	
 }

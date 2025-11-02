@@ -12,30 +12,100 @@
 
 #include "header.h"
 
-int	are_borders_valid(t_matrx ptr_map)
+static bool	are_borders_valid(t_matrx matrix)
 {
 	size_t	i;
-	size_t	j;
 
-	j = 0;
-	while (j < ptr_map.width)
+	i = 0;
+	while (i < matrix.height)
 	{
-		if ((ptr_map.data)[0][j] != '1' || (ptr_map.data)[ptr_map.height - 1][j] != '1')
-		{
-			write(1, MSG_ERROR_MAP_LIMITS, 66);
-			return (0);
-		}
-		j++;
+		if (ft_matrixget(matrix, i, 0) != '1')
+			return (false);
+		if (ft_matrixget(matrix, i, matrix.width - 1) != '1')
+			return (false);
+		i++;
 	}
 	i = 0;
-	while (i < ptr_map.height)
+	while (i < matrix.width)
 	{
-		if ((ptr_map.data)[i][0] != '1' || (ptr_map.data)[i][ptr_map.width - 1] != '1')
+		if (ft_matrixget(matrix, 0, i) != '1')
+			return (false);
+		if (ft_matrixget(matrix, matrix.height - 1, i) != '1')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+void	assert_mapborders(t_matrx matrix)
+{
+	if (are_borders_valid(matrix) == false)
+	{
+		write(STDERR_FILENO, MSG_ERROR_MAP_LIMITS, 66);
+		ft_matrixclean(&matrix);
+		exit(EXIT_FAILURE);
+	}
+}
+
+static bool	are_tiles_valid(t_element_count tiles)
+{
+	if (tiles.n_exits != 1)
+	{
+		write(STDERR_FILENO, MSG_ERROR_N_EXITS, 56);
+		return (false);
+	}
+	if (tiles.n_spawns != 1)
+	{
+		write(STDERR_FILENO, MSG_ERROR_N_SPAWNS, 55);
+		return (false);
+	}
+	if (tiles.n_collect < 1)
+	{
+		write(STDERR_FILENO, MSG_ERROR_N_COLECC, 63);
+		return (false);
+	}
+	return (true);
+}
+
+static t_element_count	count_elements(t_matrx matrix, t_tile *player_pos)
+{
+	t_element_count	elements;
+	size_t			i;
+	size_t			j;
+
+	i = 0;
+	init_tiles(&elements);
+	while (i < matrix.height)
+	{
+		j = 0;
+		while (j < matrix.width)
 		{
-			write(1, MSG_ERROR_MAP_LIMITS, 66);
-			return (0);
+			if (ft_matrixget(matrix, i, j) == 'C')
+				elements.n_collect++;
+			else if (ft_matrixget(matrix, i, j) == 'P')
+			{
+				*player_pos = (t_tile){i, j};
+				elements.n_spawns++;
+			}
+			else if (ft_matrixget(matrix, i, j) == 'E')
+				elements.n_exits++;
+			j++;
 		}
 		i++;
 	}
-	return (1);
+	return (elements);
 }
+
+void	assert_elemcount_get_spawn_collec(t_map *map)
+{
+	t_element_count	elements;
+
+	elements = count_elements(map->matrix, &map->player_pos);
+	if (are_tiles_valid(elements) == false)
+	{
+		ft_matrixclean(&map->matrix);
+		exit(EXIT_FAILURE);
+	}
+	map->n_collects = elements.n_collect;
+}
+
