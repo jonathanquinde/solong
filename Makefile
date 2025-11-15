@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibft/include
 LIBFT = libft/libft.a
 
-SRC = src/solong.c src/parse_map.c src/validations.c src/utils.c src/validations2.c src/bfs.c
+SRC = src/solong.c src/parse_map.c src/valid_elemcount_border.c src/utils.c src/valid_spawnpoint.c src/bfs.c
 OBJ = $(SRC:.c=.o)
 HEADERS = include/header.h
 
