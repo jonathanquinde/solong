@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "header.h"
-#include <stdlib.h>
-#include <strings.h>
 
 void	update_bfs(bool **visited, t_tile *search_tile, t_queue *queue)
 {
@@ -28,57 +26,72 @@ void	peek_tile(size_t *collected, bool *found_exit, char ch)
 		(*collected)--;
 }
 
-void	arrtilesclean(t_tile **arr)
+int	check_neigbours(t_tile **search_tiles, t_tile *center, bool **visited)
 {
-	free (arr[0]);
-	free (arr[1]);
-	free (arr[2]);
-	free (arr[3]);
-	arr[0] = NULL; 
-	arr[1] = NULL;
-	arr[2] = NULL;
-	arr[3] = NULL;
-}
+	t_tile	neighbours[4];
+	size_t	i;
+	size_t	j;
 
-void	expand(t_tile **search_tiles, t_tile *center, bool **visited)
-{
-	bzero(search_tiles, sizeof(*search_tiles) * 4);
-	if (matrx_tile((char **)visited, TILE_UP(*center)) == false)
+	fill_neighbours(neighbours, *center);
+	i = 0;
+	j = 0;
+	while (i < 4)
 	{
-		search_tiles[0]	= malloc(sizeof(t_tile));
-		if (search_tiles[0] == NULL)
+		if (matrx_tile((char **) visited, &neighbours[i]) == true)
 		{
-			arrtilesclean(search_tiles);
-			free (center);
-		}	
-		*search_tiles[0] = TILE_UP(*center);
+			i++;
+			continue;
+		}
+		search_tiles[j] = tiledup(neighbours[i]);
+		if (search_tiles[j] == NULL)
+			return (MALLOC_FAIL);
+		i++;
+		j++;
 	}
+	if (j == 0)
+		return (0);
+	return (1);
 }
 
-int	bfs(char **map, bool **visited, size_t n_collec,t_queue *queue)
+int	expand(t_tile **search_tiles, t_tile *center, bool **visited)
+{
+	int	error_code;
+
+	ft_bzero(search_tiles, sizeof(*search_tiles) * 4);
+	error_code = check_neigbours(search_tiles, center, visited);
+	free (center);
+	if (error_code == MALLOC_FAIL)
+	{
+		arrtilesclean(search_tiles);
+		return (MALLOC_FAIL);
+	}
+	else if (error_code == 0)
+		return (0);
+	return (1);
+}
+
+int	bfs(char **map, bool **visited, size_t collec,t_queue *queue)
 {
 	t_tile	*search_tiles[4];
 	bool	found_exit;
+	int		expand_status;
 	size_t	i;
 
 	found_exit = false;
 	while (!ft_queueisempty(queue))
 	{
-		expand(search_tiles, ft_queueget(queue), visited);
-		if (search_tiles[0] == NULL)
-			return (0);
+		expand_status = expand(search_tiles, ft_queueget(queue), visited);
+		if (expand_status == MALLOC_FAIL)
+			return (MALLOC_FAIL);
+		else if (expand_status == 0)
+			continue;
 		i = 0;
 		while (i < 4 && search_tiles[i] != NULL)
 		{
-			if (matrx_tile((char **)visited, *search_tiles[i]) == true)
-				free(search_tiles[i]);
-			else
-			{
-				peek_tile(&n_collec, &found_exit, matrx_tile(map, *search_tiles[i]));
-				update_bfs(visited, search_tiles[i], queue);
-			}	
+			peek_tile(&collec, &found_exit, matrx_tile(map, search_tiles[i]));
+			update_bfs(visited, search_tiles[i], queue);
 			i++;
 		}
 	}
-	return (n_collec == 0 && found_exit);	
+	return (collec == 0 && found_exit);	
 }

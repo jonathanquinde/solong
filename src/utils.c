@@ -6,15 +6,15 @@
 /*   By: jquinde- < jquinde-@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 13:56:40 by jquinde-          #+#    #+#             */
-/*   Updated: 2025/02/19 18:20:20 by jquinde-         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:14:31 by jquinde-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	matrx_tile(char **matrix, t_tile tile)
+char	matrx_tile(char **matrix, t_tile *tile)
 {
-	return (matrix[tile.i][tile.j]);
+	return (matrix[tile->i][tile->j]);
 }
 
 void	lst_to_matrix(t_list *node, char **row)
@@ -38,45 +38,23 @@ void	init_tiles(t_element_count *tiles)
 	(tiles->n_spawns) = 0;
 }
 
-static void    fill_borders(size_t height, size_t width, char **visited)
+void	fill_visited(t_matrx matrix, char **visited)
 {
 	size_t	i;
 	size_t	j;
 
-	j = 0;
-	while (j < width)
-	{
-		visited[0][j] = 1; 
-		visited[height - 1][j] = 1;
-		j++;
-	}
 	i = 0;
-	while (i < height)
+	while (i < matrix.height)
 	{
-		visited[i][0] = 1;
-		visited[i][width - 1] = 1;
-		i++;
-	}
-}
-
-void	traverse_matrix(t_matrx matrix, char **visited)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 1;
-	while (i < matrix.height - 1)
-	{
-		j = 1;
-		while (j < matrix.width - 1)
+		j = 0;
+		while (j < matrix.width)
 		{
-			if (matrix.data[i][j] == '1')
+			if (ft_matrixget(matrix, i, j) == '1')
 				visited[i][j] = 1;
-			else
+			else if (ft_matrixget(matrix, i, j) == '0')
 				visited[i][j] = 0;
 			j++;
 		}
 		i++;
 	}
-    fill_borders(matrix.height, matrix.width, visited);
 }
